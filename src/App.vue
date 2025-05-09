@@ -3,28 +3,61 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="layout-grid">
+    <header class="header"></header>
+    <div class="top-bar"></div>
+    <nav class="side-bar"></nav>
+    <main class="page-content"></main>
+    <footer class="footer"></footer>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.layout-grid {
+  display: grid;
+  width: 100%;
+  height: 100vh;
+  grid-template-areas: 
+    "header header"
+    "pageContent pageContent"
+    "footer footer";
+  grid-template-rows: 60px 1fr 50px;
+  grid-template-columns: 150px 1fr;
+  @media (min-width: 420px) {
+    grid-template-areas: 
+      "header topBar"
+      "sideBar pageContent"
+      "sideBar footer";
+    grid-template-rows: 60px 1fr 35px;
+    grid-template-columns: 60px 1fr;
+    }
+  @media (min-width: 920px) {
+    grid-template-areas: 
+      "header topBar"
+      "sideBar pageContent"
+      "sideBar footer";
+    grid-template-rows: 60px 1fr 35px;
+    grid-template-columns: 150px 1fr;
+  }
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.header {
+  grid-area: header;
+  background-color: #8ca0ff;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.top-bar {
+  grid-area: topBar;
+  background-color: #8cafff;
+} 
+.side-bar {
+  grid-area: sideBar;
+  background-color: #3aafff;
 }
+.page-content {
+  grid-area: pageContent;
+  background-color: #3affff;
+} 
+.footer {
+  grid-area: footer;
+  background-color: #8ca6ff;
+} 
 </style>
