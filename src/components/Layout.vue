@@ -9,7 +9,9 @@ import HeaderContent from '../components/HeaderContent.vue'
     </header>
     <div class="top-bar"></div>
     <nav class="side-bar"></nav>
-    <main class="page-content"></main>
+    <main class="page-content">
+      <router-view />
+    </main>
     <footer class="footer"></footer>
   </div>
 </template>
