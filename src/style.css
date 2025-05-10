@@ -1,12 +1,13 @@
-html {
-  box-sizing: border-box;
-      
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 *, *::before, *::after {
-  box-sizing: inherit;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1rem;
 }
 
 :root {
@@ -48,3 +49,10 @@ html {
   --yellow-100: #ffca39; 
   --yellow-90: #ffefc3;
 }  
+
+button {
+  border: none;
+}
+a {
+  text-decoration: none;
+}

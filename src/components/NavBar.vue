@@ -22,28 +22,20 @@ onClickOutside(mobileNav, event => open.value = false)
 
 <style scoped>
 .mobile-nav-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    button {
-        margin-right: 1em;
-    }
-    position: relative;
-
     @media (min-width: 420px) {
         display: none;
     }
 }
 .mobile-nav {
-    background-color: azure;
+    background-color: var(--primary-50);
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 8px;
-    gap: 4px;
-    width: 50%;
+    column-gap: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 35vh;
     height: auto;
     position: absolute;
     right: 0.75em;

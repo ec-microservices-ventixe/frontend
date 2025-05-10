@@ -28,7 +28,6 @@ import HeaderContent from '../components/HeaderContent.vue'
 }
 .header {
   grid-area: header;
-  background-color: #8ca0ff;
 }
 .top-bar {
   grid-area: topBar;
