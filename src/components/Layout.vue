@@ -10,7 +10,7 @@ import HeaderContent from '../components/HeaderContent.vue'
     <div class="top-bar"></div>
     <nav class="side-bar"></nav>
     <main class="page-content">
-      <router-view />
+      <routerView />
     </main>
     <footer class="footer"></footer>
   </div>
@@ -33,15 +33,12 @@ import HeaderContent from '../components/HeaderContent.vue'
 }
 .top-bar {
   grid-area: topBar;
-  background-color: #8cafff;
 } 
 .page-content {
   grid-area: pageContent;
-  background-color: #3affff;
 } 
 .footer {
   grid-area: footer;
-  background-color: #8ca6ff;
 } 
 .layout-grid {
   @media (min-width: 420px) {

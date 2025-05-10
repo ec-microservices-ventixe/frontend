@@ -5,7 +5,10 @@
 
 <template>
     <div class="header">
-        <h1 class="logo">Logo</h1>
+        <div class="logo-container">
+            <img src="../assets/ventixe-logo.png" alt="ventixe">
+            <span class="ventixe-name">Ventixe</span>
+        </div>
         <h2 class="current-page">Current Page</h2>
         <NavBar/>
     </div>
@@ -13,7 +16,7 @@
 
 <style scoped>
 .header {
-    width: 94%;
+    width: 98%;
     height: 96%;
     margin: auto auto;
     padding-right: 16px;
@@ -24,8 +27,12 @@
     align-items: center;
     background-color: var(--cool-gray-10);
 }
+.ventixe-name {
+    display: none;
+}
 @media (min-width: 420px) {
     .header {
+        margin-top: 5%;
         flex-direction: column;
         justify-content:flex-start;
         width: 80%;
@@ -37,6 +44,15 @@
     .current-page {
         display: none;
     }
+}
+@media (min-width: 920px) {
+    .logo-container {
+        display: flex;
+        align-items: center;
+    }
+    .ventixe-name {
+    display: block;
+    }   
 }
 
 </style>
