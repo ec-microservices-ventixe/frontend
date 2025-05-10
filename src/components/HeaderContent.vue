@@ -24,4 +24,19 @@
     align-items: center;
     background-color: var(--cool-gray-10);
 }
+@media (min-width: 420px) {
+    .header {
+        flex-direction: column;
+        justify-content:flex-start;
+        width: 80%;
+    }
+    .logo {
+        margin-top: 22px;
+        margin-bottom: 42px;
+    }
+    .current-page {
+        display: none;
+    }
+}
+
 </style>

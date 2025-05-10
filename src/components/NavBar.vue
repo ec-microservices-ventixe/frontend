@@ -18,13 +18,17 @@ onClickOutside(mobileNav, event => open.value = false)
             <p>bookings</p>
         </nav>
     </div>
+    <div class="nav-container">
+        <nav class="nav">
+            <p>Eve</p>
+            <p>book</p>
+        </nav>
+    </div>
 </template>
 
 <style scoped>
-.mobile-nav-container {
-    @media (min-width: 420px) {
-        display: none;
-    }
+.nav-container {
+    display: none;
 }
 .mobile-nav {
     background-color: var(--primary-50);
@@ -40,5 +44,18 @@ onClickOutside(mobileNav, event => open.value = false)
     position: absolute;
     right: 0.75em;
     top: 3em;
+}
+@media (min-width: 420px) {
+    .mobile-nav-container {
+        display: none;
+    }
+    .nav-container {
+        display: block;
+    }
+    .nav {
+        display: flex;
+        flex-direction: column;
+        row-gap: 18px;
+    }
 }
 </style>

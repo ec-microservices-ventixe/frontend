@@ -33,10 +33,6 @@ import HeaderContent from '../components/HeaderContent.vue'
   grid-area: topBar;
   background-color: #8cafff;
 } 
-.side-bar {
-  grid-area: sideBar;
-  background-color: #3aafff;
-}
 .page-content {
   grid-area: pageContent;
   background-color: #3affff;
@@ -49,16 +45,12 @@ import HeaderContent from '../components/HeaderContent.vue'
   @media (min-width: 420px) {
     grid-template-areas: 
       "header topBar"
-      "sideBar pageContent"
-      "sideBar footer";
+      "header pageContent"
+      "header footer";
     grid-template-rows: 60px 1fr 35px;
     grid-template-columns: 60px 1fr;
     }
   @media (min-width: 920px) {
-    grid-template-areas: 
-      "header topBar"
-      "sideBar pageContent"
-      "sideBar footer";
     grid-template-rows: 60px 1fr 35px;
     grid-template-columns: 150px 1fr;
   }
