@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import NavBar from '../components/NavBar.vue'
+import HeaderContent from '../components/HeaderContent.vue'
 </script>
 
 <template>
   <div class="layout-grid">
     <header class="header">
-      <NavBar />
+      <HeaderContent/>
     </header>
     <div class="top-bar"></div>
     <nav class="side-bar"></nav>
