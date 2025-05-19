@@ -7,13 +7,6 @@ import Layout from './components/Layout.vue'
 import HomePage from './pages/HomePage.vue'
 import AboutPage from './pages/AboutPage.vue'
 
-const authPaths = [
-    {
-        path: "signin",
-        component: SignInPage
-    }
-]
-
 const routes = [
     { path: '/', component: Layout, children: [
         {
@@ -25,8 +18,8 @@ const routes = [
             component: AboutPage
         },
         {
-            path: 'auth/',
-            children: authPaths
+            path: '/auth/signin',
+            component: SignInPage
         }
     ] }
   ]
