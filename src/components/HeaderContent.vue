@@ -37,9 +37,9 @@
         justify-content:flex-start;
         width: 80%;
     }
-    .logo {
-        margin-top: 22px;
-        margin-bottom: 42px;
+    .logo-container {
+        margin-top: 12px;
+        margin-bottom: 14px;
     }
     .current-page {
         display: none;

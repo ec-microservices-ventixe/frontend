@@ -5,7 +5,7 @@ import { useTemplateRef } from 'vue'
 
 const open = ref(false)
 const mobileNav = useTemplateRef<HTMLElement>('mobile-nav-ref')
-onClickOutside(mobileNav, event => open.value = false)
+onClickOutside(mobileNav, _ => open.value = false)
 </script>
 
 <template>

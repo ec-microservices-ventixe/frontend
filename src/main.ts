@@ -7,6 +7,13 @@ import Layout from './components/Layout.vue'
 import HomePage from './pages/HomePage.vue'
 import AboutPage from './pages/AboutPage.vue'
 
+const authPaths = [
+    {
+        path: "signin",
+        component: SignInPage
+    }
+]
+
 const routes = [
     { path: '/', component: Layout, children: [
         {
@@ -16,6 +23,10 @@ const routes = [
         {
             path: 'about',
             component: AboutPage
+        },
+        {
+            path: 'auth/',
+            children: authPaths
         }
     ] }
   ]
@@ -28,6 +39,7 @@ routes,
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBars } from '@fortawesome/free-solid-svg-icons'; 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import SignInPage from './pages/auth/SignInPage.vue'
 
 library.add(faBars);
 

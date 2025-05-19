@@ -1,3 +1,32 @@
+<script setup lang="ts">
+import { onMounted } from 'vue';
+
+    const getEvents = async () => {
+        const url = "https://ventixe-event-service-cjebcpbnf0ejcnbw.swedencentral-01.azurewebsites.net"
+        const res = await fetch(`${url}/events`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
+        })
+        if(res.status === 401) {
+            const res = await fetch(`https://ventixe-auth-service-bxfpa3epcchzazgp.swedencentral-01.azurewebsites.net/refresh-token`, {
+            method: "POST",
+            credentials: 'include',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+        })
+        const data = await res.json()
+        console.log(data)
+        }
+        console.log(res)
+        const data = await res.json()
+        console.log(data)
+    }
+    
+    onMounted(() => getEvents())
+
+</script>
 
 <template>
     <div class="card-view">
