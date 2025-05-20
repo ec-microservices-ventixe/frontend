@@ -55,4 +55,5 @@ button {
 }
 a {
   text-decoration: none;
+  color: var(--secondary-100)
 }

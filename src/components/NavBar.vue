@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
+import { RouterLink } from 'vue-router'
 
 const open = ref(false)
 const mobileNav = useTemplateRef<HTMLElement>('mobile-nav-ref')
@@ -14,14 +15,16 @@ onClickOutside(mobileNav, _ => open.value = false)
             <font-awesome-icon :icon="['fas', 'bars']" size="lg" />
         </button>
         <nav v-show="open" class="mobile-nav" ref="mobile-nav-ref">
-            <p>Events</p>
-            <p>bookings</p>
+            <RouterLink to="/">Events</RouterLink>
+            <RouterLink to="/auth/signin">Sign In</RouterLink>
+            <RouterLink to="/auth/signup">Sign Up</RouterLink>
         </nav>
     </div>
     <div class="nav-container">
         <nav class="nav">
-            <p>Eve</p>
-            <p>book</p>
+            <RouterLink to="/">Events</RouterLink>
+            <RouterLink to="/auth/signin">Sign In</RouterLink>
+            <RouterLink to="/auth/signup">Sign Up</RouterLink>
         </nav>
     </div>
 </template>
