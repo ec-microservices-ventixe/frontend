@@ -7,6 +7,7 @@ import { ref } from 'vue';
         const baseUrl = "https://ventixe-auth-service-bxfpa3epcchzazgp.swedencentral-01.azurewebsites.net"
         const res = await fetch(`${baseUrl}/signin`, {
             method: "POST",
+            credentials: 'include',
             headers: {
                 "Content-Type": "application/json"
             },

@@ -16,6 +16,10 @@ import { onMounted } from 'vue';
             'Content-Type': 'application/json',
             },
         })
+        const token = res.headers.get("Bearer-Token")
+        if (token) {
+            localStorage.setItem("accessToken", token); 
+        }
         const data = await res.json()
         console.log(data)
         }
