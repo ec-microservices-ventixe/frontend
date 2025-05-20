@@ -33,6 +33,8 @@ import HeaderContent from '../components/HeaderContent.vue'
 }
 .top-bar {
   grid-area: topBar;
+  background-color: var(--gray-20);
+  border-radius: 8px;
 } 
 .page-content {
   grid-area: pageContent;

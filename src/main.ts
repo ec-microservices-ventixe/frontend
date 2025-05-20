@@ -20,6 +20,10 @@ const routes = [
         {
             path: '/auth/signin',
             component: SignInPage
+        },
+        {
+            path: '/auth/signup',
+            component: SignUpPage
         }
     ] }
   ]
@@ -33,6 +37,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBars } from '@fortawesome/free-solid-svg-icons'; 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import SignInPage from './pages/auth/SignInPage.vue'
+import SignUpPage from './pages/auth/SignUpPage.vue'
 
 library.add(faBars);
 

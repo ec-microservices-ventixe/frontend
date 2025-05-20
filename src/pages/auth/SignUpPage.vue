@@ -3,33 +3,14 @@ import { ref } from 'vue';
     const email = ref("")
     const password = ref("")
 
-    const signInAsync = async () => {
-        const baseUrl = "https://ventixe-auth-service-bxfpa3epcchzazgp.swedencentral-01.azurewebsites.net"
-        const res = await fetch(`${baseUrl}/signin`, {
-            method: "POST",
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ email: email.value, password: password.value })
-        })
-        if (!res.ok) {
-            const errorText = await res.text();
-            throw new Error(`Request failed: ${res.status} - ${errorText}`);
-        }
-        const token = res.headers.get("Bearer-Token")
-        if (token) {
-            localStorage.setItem("accessToken", token); 
-        }
-        const data = await res.json();
-        alert(data.message)
+    const signUpAsync = async () => {
     }
 </script>
 
 <template>
-  <div class="signin-container">
-    <h2 class="signin-title">Sign In</h2>
-    <form @submit.prevent="signInAsync" class="signin-form">
+  <div class="signup-container">
+    <h2 class="signup-title">Sign Up</h2>
+    <form @submit.prevent="signUpAsync" class="signup-form">
       <input
         v-model.trim="email"
         type="text"
@@ -44,13 +25,20 @@ import { ref } from 'vue';
         placeholder="Password"
         class="form-input"
       />
-      <button type="submit" class="submit-button">Sign In</button>
+      <input
+        v-model.trim="password"
+        type="password"
+        name="password"
+        placeholder="Password"
+        class="form-input"
+      />
+      <button type="submit" class="submit-button">Sign Up</button>
     </form>
   </div>
 </template>
 
 <style scoped>
-.signin-container {
+.signup-container {
   max-width: 400px;
   margin: 5rem auto;
   padding: 2rem;
@@ -59,14 +47,14 @@ import { ref } from 'vue';
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-.signin-title {
+.signup-title {
   text-align: center;
   margin-bottom: 1.5rem;
   font-size: 1.75rem;
   color: var(--cool-gray-100);
 }
 
-.signin-form {
+.signup-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
