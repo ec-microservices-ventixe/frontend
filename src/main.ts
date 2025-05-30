@@ -24,6 +24,10 @@ const routes = [
         {
             path: '/auth/signup',
             component: SignUpPage
+        },
+        {
+            path: '/auth/confirm-email',
+            component: ConfirmEmail
         }
     ] }
   ]
@@ -38,10 +42,11 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import SignInPage from './pages/auth/SignInPage.vue'
 import SignUpPage from './pages/auth/SignUpPage.vue'
+import ConfirmEmail from './pages/auth/ConfirmEmail.vue'
 
 library.add(faBars);
-
 const app = createApp(App);
+app.provide("AuthServiceUrl", import.meta.env.VITE_AUTH_SERVICE_URL)
 app.use(router)
 app.component('FontAwesomeIcon', FontAwesomeIcon);
 app.mount('#app')

@@ -1,89 +1,115 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-    const email = ref("")
-    const password = ref("")
+  import { inject, ref } from 'vue';
+  import Modal from '../../components/Modal.vue';
 
-    const signUpAsync = async () => {
+  const baseUrl = inject<string>("AuthServiceUrl")
+
+  const message = ref("")
+
+  const credentials = ref({
+    email: "",
+    password: "",
+    confirmPassword: ""
+  })
+
+  const loading = ref<boolean>(false)
+
+  type credentialsType = "email" | "password" |"confirmPassword";
+
+  const validationErrors = ref<Record<credentialsType, string>>({
+    email: '',
+    password: '',
+    confirmPassword: ""
+  })
+  const validateForm = () : boolean => {
+    const form = credentials.value
+    const validEmail = /^\S+@\S+\.\S+$/.test(form.email)
+    const validPassword = form.password.length >= 6
+    const validConfirmPassword = form.confirmPassword === form.password
+    if(!validEmail) validationErrors.value.email = "The email is not valid"
+    if(!validPassword) validationErrors.value.password = "The password must have at least 6 characters"
+    if(!validConfirmPassword) validationErrors.value.confirmPassword = "The passwords do not match"
+    if(validEmail && validPassword && validConfirmPassword) return true;
+    return false;
+  }
+  const populateErrors = (key: string, msg: string) => {
+    const firstChar = key.charAt(0).toLocaleLowerCase()
+    const restOfKey = key.substring(1, key.length)
+    key = `${firstChar}${restOfKey}`
+    console.log(key)
+    for(let validationErrorKey in validationErrors.value) {
+      if(validationErrorKey === key) {
+        validationErrors.value[validationErrorKey as credentialsType] = msg
+      }
     }
+  }
+  const removeErrors = () => {
+    validationErrors.value.email = ""
+    validationErrors.value.password = ""
+    validationErrors.value.confirmPassword = ""
+  }
+  const signUpAsync = async () => {
+    loading.value = true;
+    message.value = ""
+    removeErrors()
+    if(!validateForm()) return
+    const res = await fetch(`${baseUrl}/signup`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email: credentials.value.email, password: credentials.value.password, confirmPassword: credentials.value.confirmPassword})
+    })
+    if(!res.ok && res.status !== 400) {
+      const errorText = await res.text();
+      loading.value = false;
+      message.value = errorText
+    }
+    const data = await res.json()
+    if(res.status === 400 && data.errors) {
+      console.log(data.errors)
+      for(const key in data.errors){
+        const msg = data.errors[key].join(" ")
+        populateErrors(key, msg)
+      }
+      loading.value = false;
+      return
+    }
+    loading.value = false;
+    message.value = "You have successfully signed up, please confirm your password"
+  }
 </script>
 
 <template>
-  <div class="signup-container">
-    <h2 class="signup-title">Sign Up</h2>
-    <form @submit.prevent="signUpAsync" class="signup-form">
+  <Modal v-if="message"  :message="message"/>
+  <div class="form-container">
+    <h2 class="form-title">Sign Up</h2>
+    <form @submit.prevent="signUpAsync" class="form">
       <input
-        v-model.trim="email"
+        v-model.trim="credentials.email"
         type="text"
         name="email"
         placeholder="name@domain.com"
         class="form-input"
       />
+      <span class="text-danger" v-if="validationErrors.email">{{ validationErrors.email }}</span>
       <input
-        v-model.trim="password"
+        v-model.trim="credentials.password"
         type="password"
         name="password"
         placeholder="Password"
         class="form-input"
       />
+      <span class="text-danger" v-if="validationErrors.password">{{ validationErrors.password }}</span>
       <input
-        v-model.trim="password"
+        v-model.trim="credentials.confirmPassword"
         type="password"
-        name="password"
+        name="confirmPassword"
         placeholder="Password"
         class="form-input"
       />
+      <span class="text-danger" v-if="validationErrors.confirmPassword">{{ validationErrors.confirmPassword }}</span>
       <button type="submit" class="submit-button">Sign Up</button>
     </form>
   </div>
 </template>
-
-<style scoped>
-.signup-container {
-  max-width: 400px;
-  margin: 5rem auto;
-  padding: 2rem;
-  background-color: var(--cool-gray-10);
-  border-radius: 1rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-.signup-title {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 1.75rem;
-  color: var(--cool-gray-100);
-}
-
-.signup-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.form-input {
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--gray-60);
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  outline: none;
-}
-
-.form-input:focus {
-  border-color: var(--primary-90);
-}
-
-.submit-button {
-  padding: 0.75rem 1rem;
-  background-color: var(--primary-100);
-  color: var(--cool-gray-90);
-  font-size: 1rem;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.submit-button:hover {
-  background-color: var(--primary-90);
-}
-</style>
