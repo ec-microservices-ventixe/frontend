@@ -9,9 +9,10 @@ const authUrl = inject("AuthServiceUrl")
     const email = ref<string>(route.query.email as string)
     const token = ref<string>(route.query.token as string)
     const message = ref("")
+    const loading = ref(false)
 
     const confirmEmail = async () => {
-        console.log(authUrl)
+        loading.value = true
         const res = await fetch(`${authUrl}/confirm-email?email=${email.value}&token=${token.value}`, {
             method: 'POST',
         })
@@ -20,9 +21,9 @@ const authUrl = inject("AuthServiceUrl")
             router.push("auth/signin")
         }
         message.value = data.message
+        loading.value = false
     }
 </script>
-
 <template>
     <Modal v-if="message" :message="message"/>
     <div class="form-container">

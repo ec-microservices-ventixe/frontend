@@ -20,12 +20,7 @@ import { onMounted } from 'vue';
         if (token) {
             localStorage.setItem("accessToken", token); 
         }
-        const data = await res.json()
-        console.log(data)
         }
-        console.log(res)
-        const data = await res.json()
-        console.log(data)
     }
     
     onMounted(() => getEvents())

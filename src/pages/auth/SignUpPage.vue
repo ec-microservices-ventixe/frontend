@@ -111,5 +111,8 @@
       <span class="text-danger" v-if="validationErrors.confirmPassword">{{ validationErrors.confirmPassword }}</span>
       <button type="submit" class="submit-button">Sign Up</button>
     </form>
+    <div>
+      <RouterLink class="a-link" to="resend-email-confirmation">Resend email confirmation link</RouterLink>
+    </div>
   </div>
 </template>
