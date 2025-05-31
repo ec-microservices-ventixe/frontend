@@ -32,6 +32,10 @@ const routes = [
         {
             path: '/auth/resend-email-confirmation',
             component: ReSendEmailConfirmation
+        },
+        {
+            path: 'events/add-event',
+            component: AddEvent
         }
     ] }
   ]
@@ -48,6 +52,7 @@ import SignInPage from './pages/auth/SignInPage.vue'
 import SignUpPage from './pages/auth/SignUpPage.vue'
 import ConfirmEmail from './pages/auth/ConfirmEmail.vue'
 import ReSendEmailConfirmation from './pages/auth/ReSendEmailConfirmation.vue'
+import AddEvent from './pages/events/AddEvent.vue'
 
 library.add(faBars);
 const app = createApp(App);

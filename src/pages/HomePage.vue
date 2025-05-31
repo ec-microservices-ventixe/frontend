@@ -1,51 +1,37 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
+import { useFetch } from '../Composables/UseFetch.vue';
+import type { IEvent } from '../Interfaces/IEvent';
+import EventCard from '../components/EventCard.vue';
+const { data, error, loading, fetch } =  useFetch<IEvent[]>("https://ventixe-event-service-cjebcpbnf0ejcnbw.swedencentral-01.azurewebsites.net/events")
 
-    const getEvents = async () => {
-        const url = "https://ventixe-event-service-cjebcpbnf0ejcnbw.swedencentral-01.azurewebsites.net"
-        const res = await fetch(`${url}/events`, {
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
-            },
-        })
-        if(res.status === 401) {
-            const res = await fetch(`https://ventixe-auth-service-bxfpa3epcchzazgp.swedencentral-01.azurewebsites.net/refresh-token`, {
-            method: "POST",
-            credentials: 'include',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-        })
-        const token = res.headers.get("Bearer-Token")
-        if (token) {
-            localStorage.setItem("accessToken", token); 
-        }
-        }
-    }
-    
-    onMounted(() => getEvents())
-
+onMounted(async () => {
+    await fetch
+    console.log(data.value)
+})
 </script>
 
 <template>
-    <div class="card-view">
-        <div class="card">
-            <p>name</p>
-            <p>description</p>
+    <div class="list-view">
+        <div class="card-wrapper" v-for="item in data" :key="item.id">
+        <EventCard
+            :event="{
+                name: item.name,
+                date: item.date,
+                location: item.location,
+                price: item.price,
+                categoryName: item.category?.name ?? 'other',
+                imageUrl: item.imageUrl ?? '/images/default-image.webp'
+            }"
+                />
         </div>
     </div>
 </template>
 
 <style scoped>
-.card-view {
+.list-view {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-}
-.card {
-    width: 90%;
-    height: 350px;
-    border-radius: 12px;
-    background-color: var(--gray-20);
+    gap: 20px;
 }
 </style>
