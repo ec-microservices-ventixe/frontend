@@ -5,6 +5,8 @@
   const baseUrl = inject<string>("AuthServiceUrl")
 
   const message = ref("")
+  const showModal = ref(false)
+  const closeModal = () => showModal.value = !showModal.value;
 
   const credentials = ref({
     email: "",
@@ -64,6 +66,7 @@
       const errorText = await res.text();
       loading.value = false;
       message.value = errorText
+      showModal.value = true
     }
     const data = await res.json()
     if(res.status === 400 && data.errors) {
@@ -76,12 +79,13 @@
       return
     }
     loading.value = false;
+    showModal.value = true
     message.value = "You have successfully signed up, please confirm your password"
   }
 </script>
 
 <template>
-  <Modal v-if="message"  :message="message"/>
+  <Modal :show="showModal" @close="closeModal" :message="message"/>
   <div class="form-container">
     <h2 class="form-title">Sign Up</h2>
     <form @submit.prevent="signUpAsync" class="form">

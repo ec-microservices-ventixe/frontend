@@ -2,6 +2,7 @@
 import { inject, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCurrentUser } from '../../Composables/useCurrentUser';
+import Modal from '../../components/Modal.vue';
 
 const baseUrl = inject<string>("AuthServiceUrl")
 const userContext = useCurrentUser()
@@ -11,6 +12,9 @@ const credentials = ref({
   password: ""
 })
 const message = ref("")
+const showModal = ref(false)
+const closeModal = () => showModal.value = !showModal.value;
+
 const loading = ref<boolean>(false)
 type credentialsType = "email" | "password";
 const validationErrors = ref<Record<credentialsType, string>>({
@@ -43,6 +47,7 @@ const signInAsync = async () => {
   if(!res.ok && res.status !== 400) {
     const errorText = await res.text();
     loading.value = false;
+    showModal.value = true
     message.value = errorText
   }
   const data = await res.json()
@@ -64,13 +69,13 @@ const signInAsync = async () => {
     loading.value = false;
     router.push("/")
   } 
-  
+  showModal.value = true
   message.value = "Something went wrong while signing in"
 }
 </script>
 
 <template>
-  <Modal v-if="message"  :message="message"/>
+  <Modal :show="showModal" @close="closeModal" :message="message"/>
   <div class="form-container">
     <h2 class="form-title">Sign In</h2>
     <form @submit.prevent="signInAsync" class="form">

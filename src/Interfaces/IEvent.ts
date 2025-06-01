@@ -21,6 +21,7 @@ export interface ICategory {
 
 export interface IScheduleSlot {
     id: number;
+    eventId: number;
     name: string;
     startTime: string;
     endTime: string;
@@ -28,6 +29,7 @@ export interface IScheduleSlot {
 
 export interface IPackage {
     id: number;
+    eventId: number;
     name: string;
     isSeating: boolean;
     benefits: string;

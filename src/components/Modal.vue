@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 
-defineProps({
-  message: String
-})
-const showModal = ref(true)
+defineProps<{
+  message: string;
+  show: boolean
+}>()
+const emits = defineEmits(['close'])
 </script>
 
 <template>
-    <div v-if="showModal" class="modal">
+    <div v-if="show" class="modal">
         <p class="modal-msg">{{ message }}</p>
-        <button @click="showModal = false" class="btn btn-primary">close</button>
+        <button @click="$emit('close')" class="btn btn-primary">close</button>
     </div>
 </template>
 
