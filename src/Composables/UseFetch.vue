@@ -35,6 +35,7 @@ export function useFetch<TData = unknown>(url: string, authorization = false ) {
       }
       const resData = await res.json()
       data.value = resData
+      console.log(url)
     } catch (error) {
       console.error(error)
     } finally {

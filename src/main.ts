@@ -13,6 +13,7 @@ import SignUpPage from './pages/auth/SignUpPage.vue'
 import ConfirmEmail from './pages/auth/ConfirmEmail.vue'
 import ReSendEmailConfirmation from './pages/auth/ReSendEmailConfirmation.vue'
 import AddEvent from './pages/events/AddEvent.vue'
+import ManageEvents from './pages/events/ManageEvents.vue'
 
 const routes = [
     { path: '/', component: Layout, children: [
@@ -41,8 +42,13 @@ const routes = [
             component: ReSendEmailConfirmation
         },
         {
-            path: 'events/add-event',
+            path: 'events/add',
             component: AddEvent,
+            meta: { adminsOnly: true } 
+        },
+        {
+            path: 'events/manage',
+            component: ManageEvents,
             meta: { adminsOnly: true } 
         }
     ] }

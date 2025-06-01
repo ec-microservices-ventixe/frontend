@@ -13,13 +13,13 @@ onMounted(async () => {
 
 <template>
     <div class="list-view">
-        <div class="card-wrapper" v-for="item in data" :key="item.id">
         <div v-if="loading">
             <p>Loading Events...</p>
         </div>
         <div v-if="error">
             <p>Sorry, we have some issues right now</p>
         </div>
+        <div class="card-wrapper" v-for="item in data" :key="item.id">
         <EventCard
             :event="{
                 name: item.name,
