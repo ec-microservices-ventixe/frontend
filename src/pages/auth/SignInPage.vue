@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import { inject, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useCurrentUser } from '../../Composables/useCurrentUser';
 
 const baseUrl = inject<string>("AuthServiceUrl")
+const userContext = useCurrentUser()
 const router = useRouter()
-
 const credentials = ref({
   email: "",
   password: ""
 })
-
+const message = ref("")
 const loading = ref<boolean>(false)
-
 type credentialsType = "email" | "password";
-
 const validationErrors = ref<Record<credentialsType, string>>({
   email: '',
   password: ''
@@ -44,7 +43,7 @@ const signInAsync = async () => {
   if(!res.ok && res.status !== 400) {
     const errorText = await res.text();
     loading.value = false;
-    alert(errorText)
+    message.value = errorText
   }
   const data = await res.json()
   if(res.status == 400 && data.errors) {
@@ -57,14 +56,21 @@ const signInAsync = async () => {
   }
   const token = res.headers.get("Bearer-Token")
   if (token) {
-      localStorage.setItem("accessToken", token); 
-  }
-  loading.value = false;
-  router.push("/")
+    localStorage.setItem("accessToken", token); 
+    const tokenArr = token.split(".")
+    const payload = JSON.parse(atob(tokenArr[1]))
+    const role = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+    userContext.updateCurrentUser(true, role, payload["email"])
+    loading.value = false;
+    router.push("/")
+  } 
+  
+  message.value = "Something went wrong while signing in"
 }
 </script>
 
 <template>
+  <Modal v-if="message"  :message="message"/>
   <div class="form-container">
     <h2 class="form-title">Sign In</h2>
     <form @submit.prevent="signInAsync" class="form">
@@ -84,7 +90,7 @@ const signInAsync = async () => {
         class="form-input"
       />
       <span class="text-danger" v-if="validationErrors.password">{{ validationErrors.password }}</span>
-      <button :disabled="loading" type="submit" class="submit-button">Sign In</button>
+      <button :disabled="loading" type="submit" class="submit-button">{{loading ? "Loading..." : "Sign In"}}</button>
     </form>
   </div>
 </template>

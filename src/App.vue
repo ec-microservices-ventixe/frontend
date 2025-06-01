@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import CurrentUserProvider from "./providers/CurrentUserProvider.vue"
 </script>
 
 <template>
-   <routerView />
+   <CurrentUserProvider>
+      <RouterView />
+   </CurrentUserProvider>
 </template>
-
-<style scoped>
-</style>

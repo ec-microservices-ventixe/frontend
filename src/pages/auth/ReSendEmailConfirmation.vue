@@ -30,7 +30,7 @@ const authUrl = inject("AuthServiceUrl")
             placeholder="name@domain.com"
             class="form-input"
             />
-            <button type="submit" class="submit-button">Resend confiramtion email</button>
+            <button :disabled="loading" type="submit" class="submit-button">{{loading ? "Loading..." : "Resend confiramtion email"}}</button>
         </form>
     </div>
 </template>

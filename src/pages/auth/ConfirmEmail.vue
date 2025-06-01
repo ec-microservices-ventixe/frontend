@@ -27,7 +27,7 @@ const authUrl = inject("AuthServiceUrl")
 <template>
     <Modal v-if="message" :message="message"/>
     <div class="form-container">
-        <button @click="confirmEmail" class="btn btn-lg btn-primary">Confirm Email: {{ email }}</button>
+        <button @click="confirmEmail" class="btn btn-lg btn-primary">{{ loading ? "Loading..." : "Confirm Email" }}</button>
     </div>
 </template>
 
