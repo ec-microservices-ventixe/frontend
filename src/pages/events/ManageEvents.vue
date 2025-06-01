@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
-import { useFetch } from '../../Composables/UseFetch.vue';
+import { useFetch } from '../../Composables/useFetch';
 import type { IEvent } from '../../Interfaces/IEvent';
 
 const baseUrl = "https://ventixe-event-service-cjebcpbnf0ejcnbw.swedencentral-01.azurewebsites.net"
@@ -33,7 +33,7 @@ const managePackages = async (id: number) => {
 const closePackagesModal = () => {
     showPackagesModal.value = false;
 }
-const packageForm = ref({eventId: 0, name: '',isSeating: false,benefits: '', extraFeeInProcent: 0})
+const packageForm = ref({eventId: 0, name: '',isSeating: false, benefits: '', extraFeeInProcent: 0})
 
 const addPackageAsync = async () => {
     packageForm.value.eventId = currentItemId.value

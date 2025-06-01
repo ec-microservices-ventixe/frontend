@@ -1,4 +1,3 @@
-<script lang="ts">
 import { inject, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -50,4 +49,3 @@ export function useFetch<TData = unknown>(url: string, authorization = false ) {
     fetch: fetchData()
   }
 }
-</script>

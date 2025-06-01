@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useFetch } from '../Composables/UseFetch.vue';
+import { useFetch } from '../Composables/useFetch';
 import type { IEvent } from '../Interfaces/IEvent';
 import EventCard from '../components/EventCard.vue';
 const { data, error, loading, fetch } =  useFetch<IEvent[]>("https://ventixe-event-service-cjebcpbnf0ejcnbw.swedencentral-01.azurewebsites.net/events")
