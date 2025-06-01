@@ -1,12 +1,35 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 
+const router = useRouter()
+const loggedIn = ref(false)
 const open = ref(false)
 const mobileNav = useTemplateRef<HTMLElement>('mobile-nav-ref')
+const authUrl = inject<string>("AuthServiceUrl")
 onClickOutside(mobileNav, _ => open.value = false)
+onMounted(() => {
+    const token = localStorage.getItem('ventixeAccessToken')
+    if(token) {
+        loggedIn.value = true
+    }
+})
+async function signOut() {
+  try {
+    const res = await fetch(`${authUrl}/signout`, { method: 'POST', credentials: 'include',headers: {'Content-Type': 'application/json'}})
+    if (res.ok) {
+      loggedIn.value = false
+      localStorage.removeItem('ventixeAccessToken') 
+      router.push("/")
+    } else {
+      console.error('Failed to sign out')
+    }
+  } catch (error) {
+    console.error('Sign out error:', error)
+  }
+}
 </script>
 
 <template>
@@ -23,8 +46,8 @@ onClickOutside(mobileNav, _ => open.value = false)
     <div class="nav-container">
         <nav class="nav">
             <RouterLink to="/">Events</RouterLink>
-            <RouterLink to="/auth/signin">Sign In</RouterLink>
-            <RouterLink to="/auth/signup">Sign Up</RouterLink>
+            <RouterLink v-if="!loggedIn" to="/auth/signin">Sign In / up</RouterLink>
+            <button v-if="loggedIn" @click="signOut">Sign Out</button>
         </nav>
     </div>
 </template>

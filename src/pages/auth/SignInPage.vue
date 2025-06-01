@@ -56,7 +56,7 @@ const signInAsync = async () => {
   }
   const token = res.headers.get("Bearer-Token")
   if (token) {
-    localStorage.setItem("accessToken", token); 
+    localStorage.setItem("ventixeAccessToken", token); 
     const tokenArr = token.split(".")
     const payload = JSON.parse(atob(tokenArr[1]))
     const role = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
@@ -92,5 +92,6 @@ const signInAsync = async () => {
       <span class="text-danger" v-if="validationErrors.password">{{ validationErrors.password }}</span>
       <button :disabled="loading" type="submit" class="submit-button">{{loading ? "Loading..." : "Sign In"}}</button>
     </form>
+    <p>Create an account here <RouterLink class="a-link" to="/auth/signup">Sign up</RouterLink></p>
   </div>
 </template>

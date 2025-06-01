@@ -56,7 +56,7 @@ routes,
 router.beforeEach((to, _, next) => {
   try {
     if (to.meta.adminsOnly) {
-      const token = localStorage.getItem('accessToken')
+      const token = localStorage.getItem('ventixeAccessToken')
       if (!token) {
         return next('/')
       }

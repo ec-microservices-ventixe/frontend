@@ -111,8 +111,18 @@
       <span class="text-danger" v-if="validationErrors.confirmPassword">{{ validationErrors.confirmPassword }}</span>
       <button type="submit" class="submit-button">{{loading ? "Loading..." : "Sign Up"}}</button>
     </form>
-    <div>
-      <RouterLink class="a-link" to="resend-email-confirmation">Resend email confirmation link</RouterLink>
+    <div class="links">
+      <p>Resend Email confirmation link <RouterLink class="a-link" to="resend-email-confirmation">Click Here</RouterLink></p>
+      <p>already have an account? <RouterLink class="a-link" to="/auth/signin">Sign in</RouterLink></p>
     </div>
   </div>
 </template>
+
+<style scoped>
+.links {
+  padding: 4px;
+  p {
+    padding-top: 4px;
+  }
+}
+</style>

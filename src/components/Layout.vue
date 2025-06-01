@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import HeaderContent from '../components/HeaderContent.vue'
+import TopBar from '../components/TopBar.vue';
 </script>
 
 <template>
@@ -7,7 +8,9 @@ import HeaderContent from '../components/HeaderContent.vue'
     <header class="header">
       <HeaderContent/>
     </header>
-    <div class="top-bar"></div>
+    <div class="top-bar">
+      <TopBar/>
+    </div>
     <nav class="side-bar"></nav>
     <main class="page-content">
       <routerView />
