@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+
 defineProps<{
   event: {
+    id: number,
     name: string
     date: string
     location: string
@@ -9,10 +14,14 @@ defineProps<{
     imageUrl: string
   }
 }>()
+
+const viewDetails = (id: number) => {
+  router.push({path: `events/${id}`})
+}
 </script>
 
 <template>
-  <div class="event-card">
+  <div class="event-card" @click="viewDetails(event.id)">
     <div class="image-container">
       <img :src="event.imageUrl" alt="Event Image" class="event-image" />
       <span class="category-tag">{{ event.categoryName }}</span>

@@ -14,6 +14,7 @@ import ConfirmEmail from './pages/auth/ConfirmEmail.vue'
 import ReSendEmailConfirmation from './pages/auth/ReSendEmailConfirmation.vue'
 import AddEvent from './pages/events/AddEvent.vue'
 import ManageEvents from './pages/events/ManageEvents.vue'
+import EventDetails from './pages/events/EventDetails.vue'
 
 const routes = [
     { path: '/', component: Layout, children: [
@@ -40,6 +41,10 @@ const routes = [
         {
             path: '/auth/resend-email-confirmation',
             component: ReSendEmailConfirmation
+        },
+        {
+            path: 'events/:id',
+            component: EventDetails,
         },
         {
             path: 'events/add',
@@ -85,6 +90,8 @@ router.beforeEach((to, _, next) => {
 library.add(faBars);
 const app = createApp(App);
 app.provide("AuthServiceUrl", import.meta.env.VITE_AUTH_SERVICE_URL)
+app.provide("EventServiceUrl", "https://ventixe-event-service-cjebcpbnf0ejcnbw.swedencentral-01.azurewebsites.net")
+app.provide("BookingServiceUrl", "https://ventixe-event-booking-service-avgjandvcxcnetev.swedencentral-01.azurewebsites.net")
 app.use(router)
 app.component('FontAwesomeIcon', FontAwesomeIcon);
 app.mount('#app')

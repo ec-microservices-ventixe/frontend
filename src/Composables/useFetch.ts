@@ -13,7 +13,7 @@ export function useFetch<TData = unknown>(url: string, authorization = false ) {
     try {
       const headers: Record<string, string> = {}
       if (authorization) {
-        headers["Authorization"] = `Bearer ${localStorage.getItem("accessToken") || ''}`
+        headers["Authorization"] = `Bearer ${localStorage.getItem("ventixeAccessToken") || ''}`
       }
       let res = await fetch(url, { headers })
       if (res.status === 401 && authorization) {
@@ -24,7 +24,7 @@ export function useFetch<TData = unknown>(url: string, authorization = false ) {
           loading.value = false
           return
         }
-        localStorage.setItem("accessToken", newToken)
+        localStorage.setItem("ventixeAccessToken", newToken)
         headers["Authorization"] = `Bearer ${newToken}`
         res = await fetch(url, { headers })
       }

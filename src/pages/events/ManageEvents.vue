@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { useFetch } from '../../Composables/useFetch';
 import type { IEvent } from '../../Interfaces/IEvent';
-import EventPackagesModal from '../../Composables/EventPackagesModal.vue';
+import EventPackagesModal from '../../components/EventPackagesModal.vue';
 
 const baseUrl = "https://ventixe-event-service-cjebcpbnf0ejcnbw.swedencentral-01.azurewebsites.net";
 const { data, error, loading, fetch: fetchData } = useFetch<IEvent[]>(`${baseUrl}/events`);

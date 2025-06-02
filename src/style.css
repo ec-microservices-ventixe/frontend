@@ -57,6 +57,9 @@
 button {
   border: none;
 }
+.text-primary-100 {
+  color: var(--primary-100);
+}
 .btn {
   padding: 0.5em 1em 0.5em 1em;
   border-radius: 50px;

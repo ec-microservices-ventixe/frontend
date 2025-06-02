@@ -22,6 +22,7 @@ onMounted(async () => {
         <div class="card-wrapper" v-for="item in data" :key="item.id">
         <EventCard
             :event="{
+                id: item.id,
                 name: item.name,
                 date: item.date,
                 location: item.location,
