@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { inject, ref, watch } from 'vue';
 import type { IEvent } from '../Interfaces/IEvent';
 
 const props = defineProps<{
@@ -8,7 +8,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits(['close']);
 
-const baseUrl = "https://ventixe-event-service-cjebcpbnf0ejcnbw.swedencentral-01.azurewebsites.net";
+const baseUrl = inject("EventServiceUrl");
 const eventData = ref<IEvent | null | undefined>(null);
 const packageForm = ref({
   eventId: props.eventId,
@@ -38,7 +38,7 @@ watch(
 const addPackageAsync = async () => {
   packageForm.value.eventId = props.eventId;
   try {
-    const res = await fetch(`${baseUrl}/Controller`, {
+    const res = await fetch(`${baseUrl}/packages`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken') || ''}`,
@@ -66,6 +66,10 @@ const addPackageAsync = async () => {
     console.error('Error while saving package:', err);
   }
 };
+
+const deletePackage = async (id: number) => {
+  await fetch(`${baseUrl}/packages/${id}`, {method: 'DELETE'})
+}
 </script>
 
 <template>
@@ -86,17 +90,16 @@ const addPackageAsync = async () => {
           <button type="submit" class="submit-button">Save Package</button>
         </form>
       </div>
-      <div class="card-wrapper" v-for="item in eventData?.packages" :key="item.id">
+      <div v-for="item in eventData?.packages" :key="item.id">
         <div class="card-content">
           <div>
             <p><strong>{{ item.name }}</strong></p>
-            <p>Seating: {{ item.isSeating }}</p>
+            <p>{{ item.isSeating ? 'seating' : 'standing' }}</p>
             <p>Benefits: {{ item.benefits }}</p>
             <p>Extra Fee: {{ item.extraFeeInProcent }}%</p>
           </div>
-          <div class="button-group">
-            <button class="btn btn-primary">Edit</button>
-            <button class="btn btn-danger">Delete</button>
+          <div>
+            <button class="btn btn-primary" @click="deletePackage(item.id)">Delete</button>
           </div>
         </div>
       </div>
@@ -126,6 +129,10 @@ const addPackageAsync = async () => {
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+.card-content {
+  display: flex;
+  align-items: center;
 }
 </style>
 

@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 import { useFetch } from '../../Composables/useFetch';
 import type { IEvent } from '../../Interfaces/IEvent';
 import EventPackagesModal from '../../components/EventPackagesModal.vue';
+import { useRouter } from 'vue-router';
+import Modal from '../../components/Modal.vue';
 
-const baseUrl = "https://ventixe-event-service-cjebcpbnf0ejcnbw.swedencentral-01.azurewebsites.net";
+const router = useRouter()
+const baseUrl = inject("EventServiceUrl");
 const { data, error, loading, fetch: fetchData } = useFetch<IEvent[]>(`${baseUrl}/events`);
 
+const showMsgModal = ref(false)
+const message = ref('')
 const showPackagesModal = ref(false);
 const currentItemId = ref(0);
 const managePackages = (id: number) => {
@@ -19,9 +24,23 @@ const closePackagesModal = () => {
 onMounted(async () => {
   await fetchData
 });
+
+const routeToEditPage = (id: number) => {
+  router.push({path: `/events/update/${id}`})
+}
+const deleteEvent = async (id: number) => {
+  const res = await fetch(`${baseUrl}/events/${id}`, {method: 'DELETE'})
+  if(res.ok) {
+    message.value = "Successfully deleted event"
+  } else {
+    message.value = await res.text()
+  }
+  showMsgModal.value = true
+}
 </script>
 
 <template>
+  <Modal :message="message" :show="showMsgModal"/>
   <div class="list-view">
     <div v-if="loading">
       <p>Loading Events...</p>
@@ -33,8 +52,8 @@ onMounted(async () => {
       <div class="card-content">
         <h4>{{ item.name }}</h4>
         <div class="button-group">
-          <button class="btn btn-primary">Edit</button>
-          <button class="btn btn-primary">Delete</button>
+          <button class="btn btn-primary" @click="routeToEditPage(item.id)">Edit</button>
+          <button class="btn btn-primary" @click="deleteEvent(item.id)">Delete</button>
           <button class="btn btn-primary" @click="managePackages(item.id)">Packages</button>
         </div>
       </div>

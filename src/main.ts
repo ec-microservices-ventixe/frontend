@@ -15,6 +15,7 @@ import ReSendEmailConfirmation from './pages/auth/ReSendEmailConfirmation.vue'
 import AddEvent from './pages/events/AddEvent.vue'
 import ManageEvents from './pages/events/ManageEvents.vue'
 import EventDetails from './pages/events/EventDetails.vue'
+import EditEvent from './pages/events/EditEvent.vue'
 
 const routes = [
     { path: '/', component: Layout, children: [
@@ -49,6 +50,11 @@ const routes = [
         {
             path: 'events/add',
             component: AddEvent,
+            meta: { adminsOnly: true } 
+        },
+        {
+            path: 'events/update/:id',
+            component: EditEvent,
             meta: { adminsOnly: true } 
         },
         {
