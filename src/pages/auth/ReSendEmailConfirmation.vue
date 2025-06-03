@@ -5,6 +5,7 @@ const authUrl = inject("AuthServiceUrl")
 
     const email = ref<string>("")
     const message = ref("")
+    const showModal = ref(false)
     const loading = ref(false)
 
     const ResendEmailConfirmation = async () => {
@@ -14,12 +15,13 @@ const authUrl = inject("AuthServiceUrl")
         })
         const data = await res.json()
         message.value = data.message
+        showModal.value = true
         loading.value = false
     }
 </script>
 
 <template>
-    <Modal v-if="message" :message="message"/>
+    <Modal :show="showModal" :message="message"/>
     <div class="form-container">
         <h2 class="form-title">Resend email confirmation</h2>
         <form @submit.prevent="ResendEmailConfirmation" class="form">

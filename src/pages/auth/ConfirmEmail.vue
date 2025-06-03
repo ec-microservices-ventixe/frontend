@@ -9,6 +9,7 @@ const authUrl = inject("AuthServiceUrl")
     const email = ref<string>(route.query.email as string)
     const token = ref<string>(route.query.token as string)
     const message = ref("")
+    const showModal = ref(false)
     const loading = ref(false)
 
     const confirmEmail = async () => {
@@ -21,11 +22,12 @@ const authUrl = inject("AuthServiceUrl")
             router.push("auth/signin")
         }
         message.value = data.message
+        showModal.value = true
         loading.value = false
     }
 </script>
 <template>
-    <Modal v-if="message" :message="message"/>
+    <Modal :show="showModal" :message="message"/>
     <div class="form-container">
         <button @click="confirmEmail" class="btn btn-lg btn-primary">{{ loading ? "Loading..." : "Confirm Email" }}</button>
     </div>
