@@ -2,7 +2,6 @@
     import NavBar from '../components/NavBar.vue'
 </script>
 
-
 <template>
     <div class="header">
         <div class="logo-container">

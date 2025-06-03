@@ -1,10 +1,9 @@
 <script setup lang="ts">
-
-defineProps<{
-  message: string;
-  show: boolean
-}>()
-const emits = defineEmits(['close'])
+    defineProps<{
+    message: string;
+    show: boolean
+    }>()
+    const emits = defineEmits(['close'])
 </script>
 
 <template>

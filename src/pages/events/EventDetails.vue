@@ -99,21 +99,22 @@ const bookEventAsync = async () => {
   <Modal :show="showModal" :message="message"></Modal>
   <div v-if="loading">loading...</div>
   <div v-if="error">An error occurred</div>
-  <div class="event-detail">
+
+  <div v-if="eventData" class="event-detail">
     <div class="image-container">
     <img v-if="eventData?.imageUrl" :src="eventData?.imageUrl"/>
     </div>
     <div class="details">
       <h1>{{ eventData?.name }}</h1>
       <p class="description">{{ eventData?.description }}</p>
+      <span class="category-tag">{{ eventData.category ? eventData.category.name : 'other'}}</span>
       <div class="info-grid">
         <div><strong>Location:</strong> {{ eventData?.location }}</div>
         <div><strong>Date:</strong> {{ eventData?.date.split("T")[0] }}</div>
         <div><strong>Time:</strong> {{  eventData?.startTime.substring(0, eventData?.startTime.lastIndexOf(':')) }} - {{ eventData?.endTime.substring(0, eventData?.endTime.lastIndexOf(':')) }}</div>
-        <div >Tickets Sold: <strong class="tickets-sold">{{ bookingCount }} </strong> / {{ eventData?.totalTickets }}</div>
+        <div >Tickets Sold: <strong class="tickets-sold">{{ bookingCount }}</strong> / {{ eventData?.totalTickets }}</div>
         <div><strong>Price From <strong class="text-primary-100">${{ eventData?.price }}</strong></strong></div>
       </div>
-
       <div class="packages" v-for="eventPackage in eventData?.packages" :key="eventPackage.id">
         <h3>Packages</h3>
         <div :class="{active: selectedPackage === eventPackage.id }" class="package" @click="selectPackage(eventPackage.id)">
@@ -127,7 +128,6 @@ const bookEventAsync = async () => {
           </div>
         </div>
       </div>
-
       <div class="book-event">
         <h3>Book Event Now</h3>
         <div class="price">
@@ -152,13 +152,13 @@ const bookEventAsync = async () => {
 
 <style scoped>
 .event-detail {
+  position: relative;
   max-width: 700px;
   margin: 2rem auto;
   background: var(--gray-10);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', sans-serif;
 }
 strong {
   font-weight: bold;
@@ -168,7 +168,19 @@ strong {
   height: auto;
   object-fit: cover;
 }
-
+.category-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: var(--gray-10);
+  color: var(--secondary-100);
+  z-index: 10;
+  padding: 4px 12px;
+  border-radius: 1000px;
+  font-size: 18px;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
 .details {
   padding: 1.5rem;
 }

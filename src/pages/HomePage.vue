@@ -7,7 +7,6 @@ const { data, error, loading, fetch } =  useFetch<IEvent[]>("https://ventixe-eve
 
 onMounted(async () => {
     await fetch
-    console.log(data.value)
 })
 </script>
 

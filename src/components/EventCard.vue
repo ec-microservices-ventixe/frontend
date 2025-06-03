@@ -28,9 +28,9 @@ const viewDetails = (id: number) => {
     </div>
     <div class="event-details">
       <h2 class="event-name">{{ event.name }}</h2>
-      <p class="event-description">{{ event.location }}</p>
+      <p class="event-location">{{ event.location }}</p>
       <div class="event-meta">
-        <span class="location">{{ event.date.split('T')[0] }}</span>
+        <span class="event-date">{{ event.date.split('T')[0] }}</span>
         <span class="price">${{ event.price.toFixed(2) }}</span>
       </div>
     </div>
@@ -44,7 +44,6 @@ const viewDetails = (id: number) => {
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  font-family: sans-serif;
   transition: transform 0.2s ease;
 }
 .event-card:hover {
@@ -78,8 +77,7 @@ const viewDetails = (id: number) => {
   font-weight: bold;
   margin-bottom: 8px;
 }
-
-.event-description {
+.event-location {
   font-size: 14px;
   color: var(--gray-100);
   margin-bottom: 12px;
@@ -90,7 +88,6 @@ const viewDetails = (id: number) => {
   font-size: 14px;
   color: var(--gray-100);
 }
-
 .price {
   font-weight: bold;
   color: var(--primary-100);

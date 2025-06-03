@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { inject, ref } from 'vue';
 import type { IEventForm } from '../../Interfaces/IEventForm';
+import Modal from '../../components/Modal.vue';
 
+    const eventUrl = inject("EventServiceUrl")
+    const message = ref('')
+    const showModal = ref(false)
     const eventForm = ref<IEventForm>({
         imageFile: null,
         name: "",
@@ -34,7 +38,7 @@ import type { IEventForm } from '../../Interfaces/IEventForm';
             formData.append("categoryId", eventForm.value.categoryId.toString());
         }
         try {
-            const res = await fetch('https://ventixe-event-service-cjebcpbnf0ejcnbw.swedencentral-01.azurewebsites.net/events', {
+            const res = await fetch(`${eventUrl}/events`, {
             method: 'POST',
             body: formData,
             headers: {
@@ -42,15 +46,16 @@ import type { IEventForm } from '../../Interfaces/IEventForm';
             }
             });
             if (res.status === 401) {
-            console.error("Unauthorized")
-            return;
+              
+              return;
             }
 
             if (!res.ok) {
-            const errText = await res.text();
-            console.error(errText);
-            return;
+            message.value = await res.text();
+            } else {
+              message.value = "Successfully added event"
             }
+            showModal.value = true
             const data = await res.json();
             console.log(data);
         } catch (error) {
@@ -71,6 +76,7 @@ import type { IEventForm } from '../../Interfaces/IEventForm';
 </script>
 
 <template>
+  <Modal :message="message" :show="showModal"/>
   <div class="form-container">
     <h2 class="form-title">Add Event</h2>
     <form @submit.prevent="AddEventAsync" class="form" enctype="multipart/form-data">
