@@ -4,20 +4,9 @@
 
 <script setup lang="ts">
 import { provide, ref } from 'vue'
-import type { Ref } from 'vue'
+import type { ICurrentUserContext, IUser } from '../Interfaces/ICurrentUserContext'
 
 defineOptions({ name: 'CurrentUserProvider' })
-
-interface IUser {
-  authenticated: boolean;
-  role: string;
-  email: string;
-}
-
-interface ICurrentUserContext {
-  currentUser: Ref<IUser>;
-  updateCurrentUser: (authenticated: boolean, role: string, email: string) => void;
-}
 
 const currentUser = ref<IUser>({
   authenticated: false,
@@ -26,9 +15,7 @@ const currentUser = ref<IUser>({
 })
 
 function updateCurrentUser(authenticated: boolean, role: string, email: string): void {
-    console.log("hi")
   currentUser.value = { authenticated, role, email }
-  console.log(currentUser.value)
 }
 
 const currentUserContext: ICurrentUserContext = {

@@ -37,7 +37,11 @@ onMounted(async () => {
 <style scoped>
 .list-view {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+    @media(min-width: 620px) {
+        justify-content: start;
+        flex-wrap: wrap;
+    }
 }
 </style>

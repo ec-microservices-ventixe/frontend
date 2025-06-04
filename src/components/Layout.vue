@@ -25,22 +25,22 @@ import TopBar from '../components/TopBar.vue';
   width: 100%;
   height: 100vh;
   grid-template-areas: 
-    "header header"
-    "pageContent pageContent"
-    "footer footer";
+    "header"
+    "pageContent"
+    "footer";
   grid-template-rows: 60px 1fr 50px;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: 1fr;
 }
 .header {
   grid-area: header;
 }
 .top-bar {
   grid-area: topBar;
-  background-color: var(--gray-20);
   border-radius: 8px;
 } 
 .page-content {
   grid-area: pageContent;
+  justify-content: center;
 } 
 .footer {
   grid-area: footer;

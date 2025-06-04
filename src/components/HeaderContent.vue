@@ -15,9 +15,9 @@
 
 <style scoped>
 .header {
-    width: 98%;
-    height: 96%;
-    margin: auto auto;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
     padding-right: 16px;
     padding-left: 16px;
     border-radius: 8px;
@@ -31,7 +31,6 @@
 }
 @media (min-width: 420px) {
     .header {
-        margin-top: 5%;
         flex-direction: column;
         justify-content:flex-start;
         width: 80%;

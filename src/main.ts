@@ -16,6 +16,10 @@ import AddEvent from './pages/events/AddEvent.vue'
 import ManageEvents from './pages/events/ManageEvents.vue'
 import EventDetails from './pages/events/EventDetails.vue'
 import EditEvent from './pages/events/EditEvent.vue'
+import BookingsPage from './pages/bookings/BookingsPage.vue'
+import { useTokenManager } from './Composables/UseTokenManager'
+
+const tokenManager = useTokenManager();
 
 const routes = [
     { path: '/', component: Layout, children: [
@@ -61,6 +65,10 @@ const routes = [
             path: 'events/manage',
             component: ManageEvents,
             meta: { adminsOnly: true } 
+        },
+        {
+            path: 'bookings',
+            component: BookingsPage,
         }
     ] }
   ]
@@ -70,18 +78,12 @@ history: createWebHistory(),
 routes,
 })
 
-router.beforeEach((to, _, next) => {
+router.beforeEach( async (to, _, next) => {
   try {
     if (to.meta.adminsOnly) {
-      const token = localStorage.getItem('ventixeAccessToken')
-      if (!token) {
-        return next('/')
-      }
-      const tokenParts = token.split('.')
-      const payload = JSON.parse(atob(tokenParts[1]))
-
-      const role = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
-
+      const token = tokenManager.getToken()
+      if(token === null) await tokenManager.refreshToken()
+      const role = tokenManager.getCurrentUserRole()
       if (role !== 'Admin') {
         return next('/')
       }

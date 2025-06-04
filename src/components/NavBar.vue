@@ -39,13 +39,15 @@ async function signOut() {
         </button>
         <nav v-show="open" class="mobile-nav" ref="mobile-nav-ref">
             <RouterLink to="/">Events</RouterLink>
-            <RouterLink to="/auth/signin">Sign In</RouterLink>
-            <RouterLink to="/auth/signup">Sign Up</RouterLink>
+            <RouterLink to="/bookings">Bookings</RouterLink>
+            <RouterLink v-if="!loggedIn" to="/auth/signin">Sign In / up</RouterLink>
+            <button v-if="loggedIn" @click="signOut">Sign Out</button>
         </nav>
     </div>
     <div class="nav-container">
         <nav class="nav">
             <RouterLink to="/">Events</RouterLink>
+            <RouterLink to="/bookings">Bookings</RouterLink>
             <RouterLink v-if="!loggedIn" to="/auth/signin">Sign In / up</RouterLink>
             <button v-if="loggedIn" @click="signOut">Sign Out</button>
         </nav>
@@ -59,6 +61,7 @@ async function signOut() {
 .mobile-nav {
     background-color: var(--primary-50);
     display: flex;
+    z-index: 1000;
     flex-direction: column;
     align-items: center;
     border-radius: 8px;

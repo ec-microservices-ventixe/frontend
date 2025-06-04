@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 *, *::before, *::after {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: "Inter", sans-serif;
@@ -83,12 +82,15 @@ a {
   color: var(--primary-100);
 }
 .form-container {
-  max-width: 400px;
+  max-width: 320px;
   margin: 5rem auto;
   padding: 2rem;
   background-color: var(--cool-gray-10);
   border-radius: 1rem;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  @media(max-width: 420px) {
+    width: 90%;
+  }
 }
 
 .form-title {

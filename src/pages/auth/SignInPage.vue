@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { inject, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useCurrentUser } from '../../Composables/useCurrentUser';
 import Modal from '../../components/Modal.vue';
 
 const baseUrl = inject<string>("AuthServiceUrl")
-const userContext = useCurrentUser()
 const router = useRouter()
 const credentials = ref({
   email: "",
@@ -62,10 +60,6 @@ const signInAsync = async () => {
   const token = res.headers.get("Bearer-Token")
   if (token) {
     localStorage.setItem("ventixeAccessToken", token); 
-    const tokenArr = token.split(".")
-    const payload = JSON.parse(atob(tokenArr[1]))
-    const role = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
-    userContext.updateCurrentUser(true, role, payload["email"])
     loading.value = false;
     router.push("/")
   } 

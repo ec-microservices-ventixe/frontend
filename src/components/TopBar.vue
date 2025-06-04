@@ -21,7 +21,8 @@ currentUser.value.role = role
 .container {
     display: flex;
     justify-content: flex-end;
-    padding-right: 20px;
+    padding-right: 30px;
+    padding-left: 30px;
     padding-top: 22px;
 }
 </style>
