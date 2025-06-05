@@ -1,7 +1,7 @@
 import { ref, watch } from "vue";
 
-    const accessToken = ref<string | null>(localStorage.getItem("ventixeccessToken"))
-    const authUrl = "https://localhost:7232"
+    const accessToken = ref<string | null>(localStorage.getItem("ventixeAccessToken"))
+    const authUrl = "https://ventixe-auth-service-bxfpa3epcchzazgp.swedencentral-01.azurewebsites.net"
     watch(accessToken, (newAccessToken) => {
         if (newAccessToken) {
             localStorage.setItem('ventixeAccessToken', newAccessToken)
@@ -21,6 +21,7 @@ import { ref, watch } from "vue";
             credentials: 'include'
         })
         const token = res.headers.get("Bearer-Token")
+        console.log(res)
         if(token) {
             accessToken.value = token;
             return true

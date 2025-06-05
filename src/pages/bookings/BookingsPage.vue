@@ -4,19 +4,15 @@ import { useFetch } from '../../Composables/useFetch';
 import type { IBooking } from '../../Interfaces/IBooking';
 import type { IEvent, IPackage } from '../../Interfaces/IEvent';
 import Modal from '../../components/Modal.vue';
+import type { IBookingComposedWithEvent } from '../../Interfaces/IBookingComposedWithEcent';
+import { useTokenManager } from '../../Composables/UseTokenManager';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const eventUrl = inject("EventServiceUrl");
 const bookingUrl = inject("BookingServiceUrl");
 const { data: bookings, error: bookingsError, loading: loadingBookings, fetch: fetchBookings } = useFetch<IBooking[]>(`${bookingUrl}/bookings/customers-bookings`, true);
-
-interface IBookingComposedWithEvent {
-  bookingId: number;
-  priceToPay: number;
-  numberOfTickets: number;
-  eventName: string;
-  packageName: string | null | undefined;
-  eventCategory: string
-}
+const tokenManager = useTokenManager()
 
 const BookingsComposedWithEvent = reactive<IBookingComposedWithEvent[]>([])
 
@@ -35,6 +31,7 @@ onMounted(async () => {
     if(eventData) {
       BookingsComposedWithEvent.push(
         {bookingId: booking.id, 
+          date: eventData.date.split('T')[0],
           priceToPay: booking.priceToPay, 
           eventName: eventData.name, 
           packageName: booking.packageId ? eventData.packages.find((x: IPackage) => x.id === booking.packageId)?.name : null, 
@@ -44,6 +41,34 @@ onMounted(async () => {
     } 
     loadingComposedData.value = false
   }});
+
+  const unbookEvent = async (id: number) =>  {
+    try {
+      const token = tokenManager.getToken()
+      if(token === null) {
+        const successfullyGotNewToken = await tokenManager.refreshToken()
+          if(!successfullyGotNewToken) {
+            return router.push("/auth/signin")
+          }
+      }
+      const res = await fetch(`${bookingUrl}/bookings/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `bearer ${tokenManager.getToken()}`
+        }
+      })
+      if(!res.ok) {
+        message.value = 'Could not unbook event'
+      } else {
+        message.value = "You have successfully unbooked the event"
+      }
+      showModal.value = true
+    } catch(error) {
+      console.error(error)
+      message.value = 'Could not unbook event'
+      showModal.value = true
+    }
+  }
 
 </script>
 
@@ -56,13 +81,48 @@ onMounted(async () => {
     <div v-if="bookingsError">
       <p>Sorry, we have some issues getting your bookings right now</p>
     </div>
-    <div class="card-wrapper" v-if="BookingsComposedWithEvent.length > 0" v-for="item in BookingsComposedWithEvent" :key="item.bookingId">
-      <div class="card-content">
-        <h4>Booking Id: {{ item.eventName }}</h4>
-        <div class="button-group">
-          <button class="btn btn-primary">Unbook</button>
-        </div>
-      </div>
+      <table>
+        <tr>
+          <th>Date</th>
+          <th>Event</th>
+          <th>Package</th>
+          <th>Price</th>
+          <th>Number of Tickets</th>
+        </tr>
+        <tr v-if="BookingsComposedWithEvent.length > 0" v-for="item in BookingsComposedWithEvent" :key="item.bookingId">
+          <td>{{ item.date }}</td>
+          <td>
+            <div>
+              <p>{{ item.eventName }}</p>
+              <p>{{ item.eventCategory }}</p>
+            </div>
+          </td>
+          <td>
+            {{ item.packageName }}
+          </td>
+          <td>
+            ${{ item.priceToPay }}
+          </td>
+          <td>
+            {{ item.numberOfTickets }}
+          </td>
+          <button class="btn btn-primary" @click="unbookEvent(item.bookingId)">UnBook</button>
+        </tr>
+      </table>
     </div>
-  </div>
 </template>
+
+<style scoped>
+  table {
+    width: 100%;
+    margin: auto auto;
+  }
+  td, th {
+    border-bottom: 1px solid var(--primary-90);
+  }
+  td {
+    text-align: center;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+</style>

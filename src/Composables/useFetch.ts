@@ -1,8 +1,9 @@
-import { inject, ref } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useTokenManager } from './UseTokenManager'
 
 export function useFetch<TData = unknown>(url: string, authorization = false ) {
-  const AuthServiceUrl = inject<string>("AuthServiceUrl")
+  const tokenManager = useTokenManager()
   const router = useRouter()
   const loading = ref(false)
   const error = ref<string>()
@@ -13,28 +14,24 @@ export function useFetch<TData = unknown>(url: string, authorization = false ) {
     try {
       const headers: Record<string, string> = {}
       if (authorization) {
+        const token = tokenManager.getToken()
+        console.log(token)
+        if(token === null) {
+          const successfullyGotNewToken = await tokenManager.refreshToken()
+          console.log(successfullyGotNewToken)
+          if(!successfullyGotNewToken) {
+            return router.push("/auth/signin")
+          }
+        }
         headers["Authorization"] = `Bearer ${localStorage.getItem("ventixeAccessToken") || ''}`
       }
       let res = await fetch(url, { headers })
-      if (res.status === 401 && authorization) {
-        const refreshRes = await fetch(`${AuthServiceUrl}/refresh-token`, { method: "POST", credentials: 'include', headers: { 'Content-Type': 'application/json' }})
-        const newToken = refreshRes.headers.get("Bearer-Token")
-        if (!newToken) {
-          router.push("/auth/signin")
-          loading.value = false
-          return
-        }
-        localStorage.setItem("ventixeAccessToken", newToken)
-        headers["Authorization"] = `Bearer ${newToken}`
-        res = await fetch(url, { headers })
-      }
       if (!res.ok) {
         error.value = await res.text()
         return
       }
       const resData = await res.json()
       data.value = resData
-      console.log(url)
     } catch (error) {
       console.error(error)
     } finally {

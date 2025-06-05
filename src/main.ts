@@ -97,7 +97,7 @@ router.beforeEach( async (to, _, next) => {
 
 library.add(faBars);
 const app = createApp(App);
-app.provide("AuthServiceUrl", import.meta.env.VITE_AUTH_SERVICE_URL)
+app.provide("AuthServiceUrl", "https://ventixe-auth-service-bxfpa3epcchzazgp.swedencentral-01.azurewebsites.net")
 app.provide("EventServiceUrl", "https://ventixe-event-service-cjebcpbnf0ejcnbw.swedencentral-01.azurewebsites.net")
 app.provide("BookingServiceUrl", "https://ventixe-event-booking-service-avgjandvcxcnetev.swedencentral-01.azurewebsites.net")
 app.use(router)
