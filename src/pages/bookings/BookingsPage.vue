@@ -18,6 +18,7 @@ const BookingsComposedWithEvent = reactive<IBookingComposedWithEvent[]>([])
 
 const showModal = ref(false)
 const message = ref('')
+const closeModal = () => showModal.value = !showModal.value
 const loadingComposedData = ref(true)
 
 onMounted(async () => {
@@ -73,7 +74,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Modal :message="message" :show="showModal"/>
+  <Modal :message="message" @close="closeModal" :show="showModal"/>
   <div class="list-view">
     <div v-if="loadingBookings || loadingComposedData">
       <p>Loading bookings...</p>

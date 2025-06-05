@@ -2,8 +2,10 @@
 import { inject, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Modal from '../../components/Modal.vue';
+import { useTokenManager } from '../../Composables/UseTokenManager';
 
 const baseUrl = inject<string>("AuthServiceUrl")
+const tokenManager = useTokenManager()
 const router = useRouter()
 const credentials = ref({
   email: "",
@@ -59,7 +61,7 @@ const signInAsync = async () => {
   }
   const token = res.headers.get("Bearer-Token")
   if (token) {
-    localStorage.setItem("ventixeAccessToken", token); 
+    tokenManager.setToken(token)
     loading.value = false;
     router.push("/")
   } 

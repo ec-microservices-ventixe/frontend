@@ -44,7 +44,7 @@ async function signOut() {
             <RouterLink to="/">Events</RouterLink>
             <RouterLink to="/bookings">Bookings</RouterLink>
             <RouterLink v-if="!tokenManager.isAuthenticated" to="/auth/signin">Sign In / up</RouterLink>
-            <button v-if="tokenManager.isAuthenticated" @click="signOut">Sign Out</button>
+            <a v-if="tokenManager.isAuthenticated" @click="signOut">Sign Out</a>
         </nav>
     </div>
 </template>

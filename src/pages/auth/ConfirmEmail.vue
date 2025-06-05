@@ -10,6 +10,7 @@ const authUrl = inject("AuthServiceUrl")
     const token = ref<string>(route.query.token as string)
     const message = ref("")
     const showModal = ref(false)
+    const closeModal = () => showModal.value = !showModal.value
     const loading = ref(false)
 
     const confirmEmail = async () => {
@@ -27,7 +28,7 @@ const authUrl = inject("AuthServiceUrl")
     }
 </script>
 <template>
-    <Modal :show="showModal" :message="message"/>
+    <Modal :show="showModal" @close="closeModal" :message="message"/>
     <div class="form-container">
         <button @click="confirmEmail" class="btn btn-lg btn-primary">{{ loading ? "Loading..." : "Confirm Email" }}</button>
     </div>
