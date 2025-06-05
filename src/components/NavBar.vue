@@ -66,6 +66,7 @@ async function signOut() {
     align-items: center;
     border-radius: 8px;
     column-gap: 8px;
+    row-gap: 12px;
     padding-top: 8px;
     padding-bottom: 8px;
     width: 35vh;

@@ -11,7 +11,6 @@ import TopBar from '../components/TopBar.vue';
     <div class="top-bar">
       <TopBar/>
     </div>
-    <nav class="side-bar"></nav>
     <main class="page-content">
       <routerView />
     </main>
@@ -37,6 +36,7 @@ import TopBar from '../components/TopBar.vue';
 .top-bar {
   grid-area: topBar;
   border-radius: 8px;
+  display: none;
 } 
 .page-content {
   grid-area: pageContent;

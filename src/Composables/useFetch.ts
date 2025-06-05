@@ -15,10 +15,8 @@ export function useFetch<TData = unknown>(url: string, authorization = false ) {
       const headers: Record<string, string> = {}
       if (authorization) {
         const token = tokenManager.getToken()
-        console.log(token)
         if(token === null) {
           const successfullyGotNewToken = await tokenManager.refreshToken()
-          console.log(successfullyGotNewToken)
           if(!successfullyGotNewToken) {
             return router.push("/auth/signin")
           }
