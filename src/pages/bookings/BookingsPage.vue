@@ -83,13 +83,16 @@ onMounted(async () => {
       <p>Sorry, we have some issues getting your bookings right now</p>
     </div>
       <table>
-        <tr>
-          <th>Date</th>
-          <th>Event</th>
-          <th>Package</th>
-          <th>Price</th>
-          <th>Number of Tickets</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Event</th>
+            <th>Package</th>
+            <th>Price</th>
+            <th>Number of Tickets</th>
+          </tr>
+        </thead>
+        <tbody>
         <tr v-if="BookingsComposedWithEvent.length > 0" v-for="item in BookingsComposedWithEvent" :key="item.bookingId">
           <td>{{ item.date }}</td>
           <td>
@@ -107,8 +110,11 @@ onMounted(async () => {
           <td>
             {{ item.numberOfTickets }}
           </td>
-          <button class="btn btn-primary" @click="unbookEvent(item.bookingId)">UnBook</button>
-        </tr>
+          <td>
+            <button class="btn btn-primary" @click="unbookEvent(item.bookingId)">UnBook</button>
+          </td>
+        </tr> 
+        </tbody>
       </table>
     </div>
 </template>
