@@ -1,4 +1,4 @@
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 
     const accessToken = ref<string | null>(localStorage.getItem("ventixeAccessToken"))
     const authUrl = "https://ventixe-auth-service-bxfpa3epcchzazgp.swedencentral-01.azurewebsites.net"
@@ -9,6 +9,8 @@ import { ref, watch } from "vue";
             localStorage.removeItem('ventixeAccessToken')
         }
     })
+    const isAuthenticated = computed(() => !!accessToken.value)
+
     function getCurrentUserRole(): string {
         if(!accessToken.value) return "";
         const tokenParts = accessToken.value.split('.')
@@ -28,10 +30,10 @@ import { ref, watch } from "vue";
         }
         return false
     }
-
 export function useTokenManager() {
     return {
         accessToken,
+        isAuthenticated,
         setToken: (token: string) => (accessToken.value = token),
         clearToken: () => (accessToken.value = null),
         getToken: () => accessToken.value,

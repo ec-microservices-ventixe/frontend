@@ -1,27 +1,22 @@
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue'
+import { inject, ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
+import { useTokenManager } from '../Composables/UseTokenManager'
 
+const tokenManager = useTokenManager()
 const router = useRouter()
-const loggedIn = ref(false)
 const open = ref(false)
-const mobileNav = useTemplateRef<HTMLElement>('mobile-nav-ref')
 const authUrl = inject<string>("AuthServiceUrl")
+const mobileNav = useTemplateRef<HTMLElement>('mobile-nav-ref')
 onClickOutside(mobileNav, _ => open.value = false)
-onMounted(() => {
-    const token = localStorage.getItem('ventixeAccessToken')
-    if(token) {
-        loggedIn.value = true
-    }
-})
+
 async function signOut() {
   try {
-    const res = await fetch(`${authUrl}/signout`, { method: 'POST', credentials: 'include',headers: {'Content-Type': 'application/json'}})
+    const res = await fetch(`${authUrl}/signout`, { method: 'POST', credentials: 'include', headers: {'Content-Type': 'application/json'}})
     if (res.ok) {
-      loggedIn.value = false
-      localStorage.removeItem('ventixeAccessToken') 
+      tokenManager.clearToken()
       router.push("/")
     } else {
       console.error('Failed to sign out')
@@ -40,16 +35,16 @@ async function signOut() {
         <nav v-show="open" class="mobile-nav" ref="mobile-nav-ref">
             <RouterLink to="/">Events</RouterLink>
             <RouterLink to="/bookings">Bookings</RouterLink>
-            <RouterLink v-if="!loggedIn" to="/auth/signin">Sign In / up</RouterLink>
-            <button v-if="loggedIn" @click="signOut">Sign Out</button>
+            <RouterLink v-if="!tokenManager.isAuthenticated" to="/auth/signin">Sign In / up</RouterLink>
+            <button v-if="tokenManager.isAuthenticated" @click="signOut">Sign Out</button>
         </nav>
     </div>
     <div class="nav-container">
         <nav class="nav">
             <RouterLink to="/">Events</RouterLink>
             <RouterLink to="/bookings">Bookings</RouterLink>
-            <RouterLink v-if="!loggedIn" to="/auth/signin">Sign In / up</RouterLink>
-            <button v-if="loggedIn" @click="signOut">Sign Out</button>
+            <RouterLink v-if="!tokenManager.isAuthenticated" to="/auth/signin">Sign In / up</RouterLink>
+            <button v-if="tokenManager.isAuthenticated" @click="signOut">Sign Out</button>
         </nav>
     </div>
 </template>
