@@ -64,9 +64,11 @@ const signInAsync = async () => {
     tokenManager.setToken(token)
     loading.value = false;
     router.push("/")
-  } 
-  showModal.value = true
-  message.value = "Something went wrong while signing in"
+  } else {
+    showModal.value = true
+    message.value = "Something went wrong while signing in"
+  }
+  
 }
 </script>
 
