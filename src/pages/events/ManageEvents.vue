@@ -29,7 +29,12 @@ const routeToEditPage = (id: number) => {
   router.push({path: `/events/update/${id}`})
 }
 const deleteEvent = async (id: number) => {
-  const res = await fetch(`${baseUrl}/events/${id}`, {method: 'DELETE'})
+  const res = await fetch(`${baseUrl}/events/${id}`, {
+    method: 'DELETE', 
+    headers: {
+      "Authorization": `Bearer ${localStorage.getItem("accessToken") || ''}`
+      }
+  })
   if(res.ok) {
     message.value = "Successfully deleted event"
   } else {
