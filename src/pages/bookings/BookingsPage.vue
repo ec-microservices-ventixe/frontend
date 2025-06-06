@@ -27,7 +27,10 @@ onMounted(async () => {
 
   for(const booking of bookings.value) {
     const res = await fetch(`${eventUrl}/events/${booking.eventId}`, {method: 'GET'})
-    if(!res.ok) return
+    if(!res.ok) {
+      loadingComposedData.value = false
+      return
+    }
     const eventData: IEvent = await res.json()
     if(eventData) {
       BookingsComposedWithEvent.push(
@@ -82,54 +85,94 @@ onMounted(async () => {
     <div v-if="bookingsError">
       <p>Sorry, we have some issues getting your bookings right now</p>
     </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Event</th>
-            <th>Package</th>
-            <th>Price</th>
-            <th>Number of Tickets</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div v-if="BookingsComposedWithEvent.length === 0">
+      <p>You have now bookings yet</p>
+    </div>
+    <table v-if="BookingsComposedWithEvent.length > 0">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Event</th>
+          <th>Package</th>
+          <th>Price</th>
+          <th>Number of Tickets</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
         <tr v-if="BookingsComposedWithEvent.length > 0" v-for="item in BookingsComposedWithEvent" :key="item.bookingId">
-          <td>{{ item.date }}</td>
-          <td>
+          <td data-label="Date">{{ item.date }}</td>
+          <td data-label="Event">
             <div>
               <p>{{ item.eventName }}</p>
               <p>{{ item.eventCategory }}</p>
             </div>
           </td>
-          <td>
-            {{ item.packageName }}
-          </td>
-          <td>
-            ${{ item.priceToPay }}
-          </td>
-          <td>
-            {{ item.numberOfTickets }}
-          </td>
-          <td>
+          <td data-label="Package">{{ item.packageName ?  item.packageName : 'None'}}</td>
+          <td data-label="Price">${{ item.priceToPay }}</td>
+          <td data-label="Tickets "><p> {{ item.numberOfTickets }}</p></td>
+          <td data-label="Action">
             <button class="btn btn-primary" @click="unbookEvent(item.bookingId)">UnBook</button>
           </td>
-        </tr> 
-        </tbody>
-      </table>
-    </div>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <style scoped>
-  table {
-    width: 100%;
-    margin: auto auto;
+table {
+  width: 100%;
+  margin: auto auto;
+  border-collapse: collapse;
+}
+
+th, td {
+  border-bottom: 1px solid var(--primary-90);
+  text-align: center;
+  padding: 12px;
+}
+
+@media (max-width: 920px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
   }
-  td, th {
+
+  thead tr {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--primary-90);
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  td {
+    text-align: left;
+    padding-left: 50%;
+    position: relative;
+    border: none;
     border-bottom: 1px solid var(--primary-90);
   }
-  td {
-    text-align: center;
-    padding-left: 12px;
-    padding-right: 12px;
+
+  td:last-child {
+    border-bottom: none;
   }
+
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  button.btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
 </style>

@@ -36,15 +36,24 @@ async function signOut() {
             <RouterLink to="/">Events</RouterLink>
             <RouterLink to="/bookings">Bookings</RouterLink>
             <RouterLink v-if="!tokenManager.isAuthenticated.value" to="/auth/signin">Sign In / up</RouterLink>
-            <button v-if="tokenManager.isAuthenticated.value" @click="signOut">Sign Out</button>
+            <button class="logout-btn" v-if="tokenManager.isAuthenticated.value" @click="signOut">Sign Out</button>
         </nav>
     </div>
     <div class="nav-container">
         <nav class="nav">
-            <RouterLink to="/">Events</RouterLink>
-            <RouterLink to="/bookings">Bookings</RouterLink>
+            <RouterLink to="/">
+                <font-awesome-icon :icon="['fa', 'calendar']" size="md" />
+                <span class="link-text">Events</span>
+            </RouterLink>
+            <RouterLink to="/bookings">
+                <font-awesome-icon :icon="['fa', 'calendar-check']" size="md" />
+                <span class="link-text">Bookings</span>
+            </RouterLink>
             <RouterLink v-if="!tokenManager.isAuthenticated.value" to="/auth/signin">Sign In / up</RouterLink>
-            <button v-if="tokenManager.isAuthenticated.value" @click="signOut">Sign Out</button>
+            <button class="logout-btn" v-if="tokenManager.isAuthenticated.value" @click="signOut">
+                <font-awesome-icon :icon="['fa', 'arrow-left']" size="md" />
+                <span class="link-text">Sign Out</span>
+            </button>
         </nav>
     </div>
 </template>
@@ -52,6 +61,17 @@ async function signOut() {
 <style scoped>
 .nav-container {
     display: none;
+}
+.logout-btn {
+    background-color: transparent;
+    color: var(--secondary-100)
+}
+.link-text {
+    margin-left: 5px;
+    font-size: 14px;
+    @media(max-width: 920px) {
+        display: none;
+    }
 }
 .mobile-nav {
     background-color: var(--primary-50);

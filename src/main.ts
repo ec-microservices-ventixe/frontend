@@ -4,9 +4,8 @@ import './style.css'
 import App from './App.vue'
 import Layout from './components/Layout.vue'
 import HomePage from './pages/HomePage.vue'
-import AboutPage from './pages/AboutPage.vue'
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBars } from '@fortawesome/free-solid-svg-icons'; 
+import { faBars, faCalendar, faCalendarCheck, faArrowLeft } from '@fortawesome/free-solid-svg-icons'; 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import SignInPage from './pages/auth/SignInPage.vue'
 import SignUpPage from './pages/auth/SignUpPage.vue'
@@ -26,10 +25,6 @@ const routes = [
         {
             path: '',
             component: HomePage
-        },
-        {
-            path: 'about',
-            component: AboutPage
         },
         {
             path: '/auth/signin',
@@ -96,8 +91,11 @@ router.beforeEach( async (to, _, next) => {
 })
 
 library.add(faBars);
+library.add(faCalendar)
+library.add(faCalendarCheck)
+library.add(faArrowLeft)
 const app = createApp(App);
-app.provide("AuthServiceUrl", "https://ventixe-auth-service-bxfpa3epcchzazgp.swedencentral-01.azurewebsites.net")
+app.provide("AuthServiceUrl", "https://localhost:7232")
 app.provide("EventServiceUrl", "https://ventixe-event-service-cjebcpbnf0ejcnbw.swedencentral-01.azurewebsites.net")
 app.provide("BookingServiceUrl", "https://ventixe-event-booking-service-avgjandvcxcnetev.swedencentral-01.azurewebsites.net")
 app.use(router)
