@@ -11,7 +11,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 const eventUrl = inject("EventServiceUrl");
 const bookingUrl = inject("BookingServiceUrl");
-const { data: bookings, error: bookingsError, loading: loadingBookings, fetch: fetchBookings } = useFetch<IBooking[]>(`${bookingUrl}/bookings/customers-bookings`, true);
+const { data: bookings, error: bookingsError, fetch: fetchBookings } = useFetch<IBooking[]>(`${bookingUrl}/bookings/customers-bookings`, true);
 const tokenManager = useTokenManager()
 
 const BookingsComposedWithEvent = reactive<IBookingComposedWithEvent[]>([])
