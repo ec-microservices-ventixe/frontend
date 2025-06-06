@@ -22,7 +22,6 @@ import { computed, ref, watch } from "vue";
             credentials: 'include'
         })
         const token = res.headers.get("Bearer-Token")
-        console.log(res)
         if(token) {
             accessToken.value = token;
             return true

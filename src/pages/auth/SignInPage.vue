@@ -70,6 +70,7 @@ const signInAsync = async () => {
     const token = res.headers.get("Bearer-Token");
     if (token) {
       tokenManager.setToken(token);
+      console.log(tokenManager.getToken())
       router.push("/");
     } else {
       showModal.value = true;
