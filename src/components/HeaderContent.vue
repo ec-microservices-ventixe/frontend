@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import NavBar from '../components/NavBar.vue'
+
 </script>
 
 <template>
@@ -8,7 +9,6 @@
             <img src="../assets/ventixe-logo.png" alt="ventixe">
             <span class="ventixe-name">Ventixe</span>
         </div>
-        <h2 class="current-page">Current Page</h2>
         <NavBar/>
     </div>
 </template>
