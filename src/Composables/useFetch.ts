@@ -21,7 +21,7 @@ export function useFetch<TData = unknown>(url: string, authorization = false ) {
             return router.push("/auth/signin")
           }
         }
-        headers["Authorization"] = `Bearer ${localStorage.getItem("ventixeAccessToken") || ''}`
+        headers["Authorization"] = `Bearer ${tokenManager.getToken()}`
       }
       let res = await fetch(url, { headers })
       if (!res.ok) {
