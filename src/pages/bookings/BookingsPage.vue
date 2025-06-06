@@ -38,7 +38,7 @@ onMounted(async () => {
           date: eventData.date.split('T')[0],
           priceToPay: booking.priceToPay, 
           eventName: eventData.name, 
-          packageName: booking.packageId ? eventData.packages.find((x: IPackage) => x.id === booking.packageId)?.name : null, 
+          packageName: booking.packageId ? eventData.packages.find((x: IPackage) => x.id === booking.packageId)?.name : "None", 
           eventCategory: eventData.category ? eventData.category.name : "other",
           numberOfTickets: booking.amountOfTickets
         });
@@ -108,7 +108,7 @@ onMounted(async () => {
               <p>{{ item.eventCategory }}</p>
             </div>
           </td>
-          <td data-label="Package">{{ item.packageName ?  item.packageName : 'None'}}</td>
+          <td data-label="Package">{{ item.packageName }}</td>
           <td data-label="Price">${{ item.priceToPay }}</td>
           <td data-label="Tickets "><p> {{ item.numberOfTickets }}</p></td>
           <td data-label="Action">

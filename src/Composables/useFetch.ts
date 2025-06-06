@@ -12,7 +12,7 @@ export function useFetch<TData = unknown>(url: string, authorization = false ) {
   const fetchData = async () => {
     loading.value = true
     try {
-      const headers: Record<string, string> = {}
+      let headers: Record<string, string> = {}
       if (authorization) {
         headers["Authorization"] = `Bearer ${tokenManager.getToken()}`
       }
@@ -23,6 +23,7 @@ export function useFetch<TData = unknown>(url: string, authorization = false ) {
           if(!successfullyGotNewToken) {
             return router.push("/auth/signin")
           }
+        headers["Authorization"] = `Bearer ${tokenManager.getToken()}`;
         res = await fetch(url, { headers })
       }
       if (!res.ok) {
