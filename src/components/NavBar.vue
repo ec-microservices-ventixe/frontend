@@ -49,7 +49,10 @@ async function signOut() {
                 <font-awesome-icon :icon="['fa', 'calendar-check']" size="md" />
                 <span class="link-text">Bookings</span>
             </RouterLink>
-            <RouterLink v-if="!tokenManager.isAuthenticated.value" to="/auth/signin">Sign In / up</RouterLink>
+            <RouterLink v-if="!tokenManager.isAuthenticated.value" to="/auth/signin">
+                <font-awesome-icon :icon="['fa', 'lock']" size="md" />
+               <span class="link-text">Sign in/up</span>
+            </RouterLink>
             <button class="logout-btn" v-if="tokenManager.isAuthenticated.value" @click="signOut">
                 <font-awesome-icon :icon="['fa', 'arrow-left']" size="md" />
                 <span class="link-text">Sign Out</span>

@@ -5,7 +5,7 @@ import App from './App.vue'
 import Layout from './components/Layout.vue'
 import HomePage from './pages/HomePage.vue'
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBars, faCalendar, faCalendarCheck, faArrowLeft } from '@fortawesome/free-solid-svg-icons'; 
+import { faBars, faCalendar, faCalendarCheck, faArrowLeft, faLock } from '@fortawesome/free-solid-svg-icons'; 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import SignInPage from './pages/auth/SignInPage.vue'
 import SignUpPage from './pages/auth/SignUpPage.vue'
@@ -94,6 +94,7 @@ library.add(faBars);
 library.add(faCalendar)
 library.add(faCalendarCheck)
 library.add(faArrowLeft)
+library.add(faLock)
 const app = createApp(App);
 app.provide("AuthServiceUrl", "https://ventixe-auth-service-bxfpa3epcchzazgp.swedencentral-01.azurewebsites.net")
 app.provide("EventServiceUrl", "https://ventixe-event-service-cjebcpbnf0ejcnbw.swedencentral-01.azurewebsites.net")
