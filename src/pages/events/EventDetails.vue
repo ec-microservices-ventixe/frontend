@@ -19,7 +19,7 @@ onMounted(async () => {
 
 const showModal = ref(false)
 const message = ref("")
-
+const closeModal = () => showModal.value = !showModal.value
 const submitting = ref(false)
 
 const amountOfTickets = ref(1)
@@ -96,7 +96,7 @@ const bookEventAsync = async () => {
 </script>
 
 <template>
-  <Modal :show="showModal" :message="message"></Modal>
+  <Modal :show="showModal" @click="closeModal" :message="message"></Modal>
   <div v-if="loading">loading...</div>
   <div v-if="error">An error occurred</div>
 

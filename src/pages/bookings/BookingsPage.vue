@@ -67,6 +67,7 @@ onMounted(async () => {
         message.value = "You have successfully unbooked the event"
       }
       showModal.value = true
+      window.location.reload()
     } catch(error) {
       console.error(error)
       message.value = 'Could not unbook event'
