@@ -49,7 +49,7 @@ const signInAsync = async () => {
     });
 
     const contentType = res.headers.get("Content-Type");
-
+    console.log(contentType)
     if (!res.ok && res.status !== 400) {
       const errorText = contentType?.includes("application/json") ? (await res.json()).message : await res.text();
       showModal.value = true;
