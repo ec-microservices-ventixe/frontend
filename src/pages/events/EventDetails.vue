@@ -115,8 +115,8 @@ const bookEventAsync = async () => {
         <div >Tickets Sold: <strong class="tickets-sold">{{ bookingCount }}</strong> / {{ eventData?.totalTickets }}</div>
         <div><strong>Price From <strong class="text-primary-100">${{ eventData?.price }}</strong></strong></div>
       </div>
+      <h3>Packages</h3>
       <div class="packages" v-for="eventPackage in eventData?.packages" :key="eventPackage.id">
-        <h3>Packages</h3>
         <div :class="{active: selectedPackage === eventPackage.id }" class="package" @click="selectPackage(eventPackage.id)">
           <h4><strong>{{ eventPackage.name }}</strong></h4>
           <div class="package-info">
