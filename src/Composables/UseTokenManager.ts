@@ -11,22 +11,35 @@ import { computed, ref, watch } from "vue";
     })
     const isAuthenticated = computed(() => !!accessToken.value)
     function getCurrentUserRole(): string {
-        if(!accessToken.value) return "";
-        const tokenParts = accessToken.value.split('.')
-        const payload = JSON.parse(atob(tokenParts[1]))
-        return payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
-    } 
-    async function refreshToken (): Promise<boolean> {
-        const res = await fetch(`${authUrl}/refresh-token`, {
-            method: 'POST',
-            credentials: 'include'
-        })
-        const token = res.headers.get("Bearer-Token")
-        if(token) {
-            accessToken.value = token;
-            return true
+        if (!accessToken.value) return "";
+        try {
+            const tokenParts = accessToken.value.split('.');
+            if (tokenParts.length !== 3) return "";
+            const payload = JSON.parse(atob(tokenParts[1]));
+            return payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || "";
+        } catch (e) {
+            console.error("Failed to parse JWT:", e);
+            return "";
         }
-        return false
+    }
+    async function refreshToken(): Promise<boolean> {
+        try {
+            const res = await fetch(`${authUrl}/refresh-token`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+            if (!res.ok) return false;
+            const token = res.headers.get("Bearer-Token");
+            if (token) {
+                accessToken.value = token;
+                return true;
+            }
+
+            return false;
+        } catch (err) {
+            console.error("Refresh token failed:", err);
+            return false;
+        }
     }
 export function useTokenManager() {
     return {
