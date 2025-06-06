@@ -85,7 +85,7 @@ onMounted(async () => {
     <div v-if="bookingsError">
       <p>Sorry, we have some issues getting your bookings right now</p>
     </div>
-    <div v-if="BookingsComposedWithEvent.length === 0">
+    <div v-if="BookingsComposedWithEvent.length === 0 && !loadingComposedData">
       <p>You have now bookings yet</p>
     </div>
     <table v-if="BookingsComposedWithEvent.length > 0">
