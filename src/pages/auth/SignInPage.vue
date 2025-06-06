@@ -35,41 +35,54 @@ const removeErrors = () => {
 }
 const signInAsync = async () => {
   loading.value = true;
-  removeErrors()
-  const res = await fetch(`${baseUrl}/signin`, {
+  removeErrors();
+  try {
+    const res = await fetch(`${baseUrl}/signin`, {
       method: "POST",
-      credentials: 'include',
       headers: {
-          "Content-Type": "application/json"
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({ email: credentials.value.email, password: credentials.value.password})
-  })
-  if(!res.ok && res.status !== 400) {
-    const errorText = await res.text();
-    loading.value = false;
-    showModal.value = true
-    message.value = errorText
-  }
-  const data = await res.json()
-  if(res.status == 400 && data.errors) {
-    for(const key in data.errors){
-      const msg = data.errors[key][0]
-      populateErrors(key, msg)
+      body: JSON.stringify({
+        email: credentials.value.email,
+        password: credentials.value.password
+      })
+    });
+
+    const contentType = res.headers.get("Content-Type");
+
+    if (!res.ok && res.status !== 400) {
+      const errorText = contentType?.includes("application/json") ? (await res.json()).message : await res.text();
+      showModal.value = true;
+      message.value = errorText || "An unknown error occurred.";
+      return;
     }
+
+    const data = await res.json();
+
+    if (res.status === 400 && data.errors) {
+      for (const key in data.errors) {
+        const msg = data.errors[key][0];
+        populateErrors(key, msg);
+      }
+      return;
+    }
+
+    const token = res.headers.get("Bearer-Token");
+    if (token) {
+      tokenManager.setToken(token);
+      router.push("/");
+    } else {
+      showModal.value = true;
+      message.value = "Something went wrong while signing in.";
+    }
+  } catch (err) {
+    showModal.value = true;
+    message.value = "Network error or server is unreachable.";
+  } finally {
     loading.value = false;
-    return
   }
-  const token = res.headers.get("Bearer-Token")
-  if (token) {
-    tokenManager.setToken(token)
-    loading.value = false;
-    router.push("/")
-  } else {
-    showModal.value = true
-    message.value = "Something went wrong while signing in"
-  }
-  
-}
+};
+
 </script>
 
 <template>
