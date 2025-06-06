@@ -5,9 +5,11 @@ import type { IEvent } from '../../Interfaces/IEvent';
 import EventPackagesModal from '../../components/EventPackagesModal.vue';
 import { useRouter } from 'vue-router';
 import Modal from '../../components/Modal.vue';
+import { useTokenManager } from '../../Composables/UseTokenManager';
 
 const router = useRouter()
 const baseUrl = inject("EventServiceUrl");
+const tokenManager = useTokenManager()
 const { data, error, loading, fetch: fetchData } = useFetch<IEvent[]>(`${baseUrl}/events`);
 
 const showMsgModal = ref(false)
@@ -32,7 +34,7 @@ const deleteEvent = async (id: number) => {
   const res = await fetch(`${baseUrl}/events/${id}`, {
     method: 'DELETE', 
     headers: {
-      "Authorization": `Bearer ${localStorage.getItem("accessToken") || ''}`
+      "Authorization": `Bearer ${tokenManager.getToken()}`
       }
   })
   if(res.ok) {

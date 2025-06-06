@@ -4,7 +4,9 @@
     import { useFetch } from '../../Composables/useFetch';
     import type { IEvent } from '../../Interfaces/IEvent';
 import type { IEventUpdateForm } from '../../Interfaces/IEventForm';
+import { useTokenManager } from '../../Composables/UseTokenManager';
     const eventUrl = inject("EventServiceUrl")
+    const tokenManager = useTokenManager()
     const route = useRoute()
     const {data: eventData, error: eventError, loading: eventLoading, fetch: fetchEvent} = useFetch<IEvent>(`${eventUrl}/events/${route.params.id}`)
 
@@ -63,7 +65,7 @@ import type { IEventUpdateForm } from '../../Interfaces/IEventForm';
             method: 'PUT',
             body: formData,
             headers: {
-                "Authorization": `Bearer ${localStorage.getItem("accessToken") || ''}`
+                "Authorization": `Bearer ${tokenManager.getToken()}`
             }
             });
             if (res.status === 401) {

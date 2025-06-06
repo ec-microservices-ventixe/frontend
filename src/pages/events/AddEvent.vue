@@ -2,8 +2,10 @@
 import { inject, ref } from 'vue';
 import type { IEventForm } from '../../Interfaces/IEventForm';
 import Modal from '../../components/Modal.vue';
+import { useTokenManager } from '../../Composables/UseTokenManager';
 
     const eventUrl = inject("EventServiceUrl")
+    const tokenManager = useTokenManager()
     const message = ref('')
     const showModal = ref(false)
     const eventForm = ref<IEventForm>({
@@ -42,7 +44,7 @@ import Modal from '../../components/Modal.vue';
             method: 'POST',
             body: formData,
             headers: {
-                "Authorization": `Bearer ${localStorage.getItem("accessToken") || ''}`
+                "Authorization": `Bearer ${tokenManager.getToken()}`
             }
             });
             if (res.status === 401) {

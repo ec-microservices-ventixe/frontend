@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { inject, ref, watch } from 'vue';
 import type { IEvent } from '../Interfaces/IEvent';
+import { useTokenManager } from '../Composables/UseTokenManager';
 
 const props = defineProps<{
   eventId: number;
@@ -9,6 +10,7 @@ const props = defineProps<{
 const emit = defineEmits(['close']);
 
 const baseUrl = inject("EventServiceUrl");
+const tokenManager = useTokenManager()
 const eventData = ref<IEvent | null | undefined>(null);
 const packageForm = ref({
   eventId: props.eventId,
@@ -41,7 +43,7 @@ const addPackageAsync = async () => {
     const res = await fetch(`${baseUrl}/packages`, {
       method: 'POST',
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem('accessToken') || ''}`,
+        "Authorization": `Bearer ${tokenManager.getToken()}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(packageForm.value),
