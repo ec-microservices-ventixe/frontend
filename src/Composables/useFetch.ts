@@ -14,14 +14,15 @@ export function useFetch<TData = unknown>(url: string, authorization = false ) {
     try {
       const headers: Record<string, string> = {}
       if (authorization) {
-        const token = tokenManager.getToken()
+        let token = tokenManager.getToken()
         if(token === null) {
           const successfullyGotNewToken = await tokenManager.refreshToken()
           if(!successfullyGotNewToken) {
             return router.push("/auth/signin")
           }
+          token = tokenManager.getToken()
         }
-        headers["Authorization"] = `Bearer ${tokenManager.getToken()}`
+        headers["Authorization"] = `Bearer ${token}`
       }
       let res = await fetch(url, { headers })
       if (!res.ok) {
