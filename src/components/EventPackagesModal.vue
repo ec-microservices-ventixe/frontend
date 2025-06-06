@@ -70,7 +70,12 @@ const addPackageAsync = async () => {
 };
 
 const deletePackage = async (id: number) => {
-  await fetch(`${baseUrl}/packages/${id}`, {method: 'DELETE'})
+  await fetch(`${baseUrl}/packages/${id}`, {
+    method: 'DELETE',
+    headers: {
+      "Authorization": `Bearer ${tokenManager.getToken()}`
+    }
+  })
 }
 </script>
 
