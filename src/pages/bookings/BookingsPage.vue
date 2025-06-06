@@ -18,7 +18,10 @@ const BookingsComposedWithEvent = reactive<IBookingComposedWithEvent[]>([])
 
 const showModal = ref(false)
 const message = ref('')
-const closeModal = () => showModal.value = !showModal.value
+const closeModal = () => {
+  showModal.value = !showModal.value
+  window.location.reload()
+}
 const loadingComposedData = ref(true)
 
 onMounted(async () => {
@@ -67,7 +70,6 @@ onMounted(async () => {
         message.value = "You have successfully unbooked the event"
       }
       showModal.value = true
-      window.location.reload()
     } catch(error) {
       console.error(error)
       message.value = 'Could not unbook event'
