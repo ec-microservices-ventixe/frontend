@@ -22,9 +22,10 @@ const closeModal = () => {
   showModal.value = !showModal.value
   window.location.reload()
 }
-const loadingComposedData = ref(true)
+const loadingComposedData = ref(false)
 
 onMounted(async () => {
+  loadingComposedData.value = true
   await fetchBookings
   if(!bookings.value) return
 
@@ -41,7 +42,7 @@ onMounted(async () => {
           date: eventData.date.split('T')[0],
           priceToPay: booking.priceToPay, 
           eventName: eventData.name, 
-          packageName: booking.packageId ? eventData.packages.find((x: IPackage) => x.id === booking.packageId)?.name : "None", 
+          packageName: booking.packageId > 0 ? eventData.packages.find((x: IPackage) => x.id === booking.packageId)?.name : "None", 
           eventCategory: eventData.category ? eventData.category.name : "other",
           numberOfTickets: booking.amountOfTickets
         });
@@ -82,7 +83,7 @@ onMounted(async () => {
 <template>
   <Modal :message="message" @close="closeModal" :show="showModal"/>
   <div class="list-view">
-    <div v-if="loadingBookings || loadingComposedData">
+    <div v-if="loadingComposedData">
       <p>Loading bookings...</p>
     </div>
     <div v-if="bookingsError">
