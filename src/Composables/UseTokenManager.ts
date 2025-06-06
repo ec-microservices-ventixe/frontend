@@ -10,7 +10,6 @@ import { computed, ref, watch } from "vue";
         }
     })
     const isAuthenticated = computed(() => !!accessToken.value)
-
     function getCurrentUserRole(): string {
         if(!accessToken.value) return "";
         const tokenParts = accessToken.value.split('.')

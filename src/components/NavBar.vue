@@ -35,16 +35,16 @@ async function signOut() {
         <nav v-show="open" class="mobile-nav" ref="mobile-nav-ref">
             <RouterLink to="/">Events</RouterLink>
             <RouterLink to="/bookings">Bookings</RouterLink>
-            <RouterLink v-if="!tokenManager.isAuthenticated" to="/auth/signin">Sign In / up</RouterLink>
-            <button v-if="tokenManager.isAuthenticated" @click="signOut">Sign Out</button>
+            <RouterLink v-if="!tokenManager.isAuthenticated.value" to="/auth/signin">Sign In / up</RouterLink>
+            <button v-if="tokenManager.isAuthenticated.value" @click="signOut">Sign Out</button>
         </nav>
     </div>
     <div class="nav-container">
         <nav class="nav">
             <RouterLink to="/">Events</RouterLink>
             <RouterLink to="/bookings">Bookings</RouterLink>
-            <RouterLink v-if="!tokenManager.isAuthenticated" to="/auth/signin">Sign In / up</RouterLink>
-            <button v-if="tokenManager.isAuthenticated" @click="signOut">Sign Out</button>
+            <RouterLink v-if="!tokenManager.isAuthenticated.value" to="/auth/signin">Sign In / up</RouterLink>
+            <button v-if="tokenManager.isAuthenticated.value" @click="signOut">Sign Out</button>
         </nav>
     </div>
 </template>
