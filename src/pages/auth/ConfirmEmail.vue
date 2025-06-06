@@ -20,7 +20,7 @@ const authUrl = inject("AuthServiceUrl")
         })
         const data = await res.json()
         if(res.ok) {
-            router.push("auth/signin")
+            router.push("signin")
         }
         message.value = data.message
         showModal.value = true
