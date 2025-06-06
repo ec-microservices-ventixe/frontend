@@ -219,6 +219,7 @@ h3 {
   padding-right: 16px;
   padding-top: 12px;
   padding-bottom: 12px;
+  margin-bottom: 5px;
   max-width: 350px;
   background-color: var(--cool-gray-20);
   border-radius: 12px;
