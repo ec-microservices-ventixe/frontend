@@ -27,7 +27,10 @@ const loadingComposedData = ref(false)
 onMounted(async () => {
   loadingComposedData.value = true
   await fetchBookings
-  if(!bookings.value) return
+  if(!bookings.value || bookings.value.length === 0) {
+    loadingComposedData.value = false
+    return
+  }
 
   for(const booking of bookings.value) {
     const res = await fetch(`${eventUrl}/events/${booking.eventId}`, {method: 'GET'})
@@ -36,13 +39,14 @@ onMounted(async () => {
       return
     }
     const eventData: IEvent = await res.json()
+    console.log(booking)
     if(eventData) {
       BookingsComposedWithEvent.push(
         {bookingId: booking.id, 
           date: eventData.date.split('T')[0],
           priceToPay: booking.priceToPay, 
           eventName: eventData.name, 
-          packageName: booking.packageId > 0 ? eventData.packages.find((x: IPackage) => x.id === booking.packageId)?.name : "None", 
+          packageName: booking.eventPackageId > 0 ? eventData.packages.find((x: IPackage) => x.id === booking.eventPackageId)?.name : "None", 
           eventCategory: eventData.category ? eventData.category.name : "other",
           numberOfTickets: booking.amountOfTickets
         });
@@ -90,7 +94,7 @@ onMounted(async () => {
       <p>Sorry, we have some issues getting your bookings right now</p>
     </div>
     <div v-if="BookingsComposedWithEvent.length === 0 && !loadingComposedData">
-      <p>You have now bookings yet</p>
+      <p>You have no bookings yet</p>
     </div>
     <table v-if="BookingsComposedWithEvent.length > 0">
       <thead>

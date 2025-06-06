@@ -96,7 +96,7 @@ library.add(faCalendarCheck)
 library.add(faArrowLeft)
 library.add(faLock)
 const app = createApp(App);
-app.provide("AuthServiceUrl", "https://ventixe-auth-service-bxfpa3epcchzazgp.swedencentral-01.azurewebsites.net")
+app.provide("AuthServiceUrl", "https://localhost:7232")
 app.provide("EventServiceUrl", "https://ventixe-event-service-cjebcpbnf0ejcnbw.swedencentral-01.azurewebsites.net")
 app.provide("BookingServiceUrl", "https://ventixe-event-booking-service-avgjandvcxcnetev.swedencentral-01.azurewebsites.net")
 app.use(router)

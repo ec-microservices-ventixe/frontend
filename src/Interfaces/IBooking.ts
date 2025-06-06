@@ -2,7 +2,7 @@ export interface IBooking {
     id: number,
     date: string,
     eventId: number,
-    packageId: number;
+    eventPackageId: number;
     priceToPay: number;
     amountOfTickets: number;
 }
