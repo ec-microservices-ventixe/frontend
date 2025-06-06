@@ -68,7 +68,7 @@ const signInAsync = async () => {
     }
 
     const token = res.headers.get("Bearer-Token");
-    console.log(token)
+    console.log(res.headers.get("Bearer-Token"))
     if (token) {
       tokenManager.setToken(token);
       console.log(tokenManager.getToken())
