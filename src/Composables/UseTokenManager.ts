@@ -26,16 +26,20 @@ import { computed, ref, watch } from "vue";
         try {
             const res = await fetch(`${authUrl}/refresh-token`, {
                 method: 'POST',
-                credentials: 'include'
+                credentials: 'include',
             });
-            if (!res.ok) return false;
+            if (!res.ok) {
+                console.warn('Refresh token request failed:', res.status);
+                return false;
+            }
             const token = res.headers.get("Bearer-Token");
             if (token) {
                 accessToken.value = token;
                 return true;
+            } else {
+                console.warn("No Bearer-Token header received on refresh");
+                return false;
             }
-
-            return false;
         } catch (err) {
             console.error("Refresh token failed:", err);
             return false;
