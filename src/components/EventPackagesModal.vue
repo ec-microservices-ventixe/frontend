@@ -41,7 +41,7 @@ const addPackageAsync = async () => {
     const res = await fetch(`${baseUrl}/packages`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken') || ''}`,
+        "Authorization": `Bearer ${localStorage.getItem('accessToken') || ''}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(packageForm.value),
